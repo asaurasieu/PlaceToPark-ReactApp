@@ -1,39 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+import {Text} from 'react-native';
 import {db} from './common/firebase';
 import {collection, doc, getDocs, setDoc} from 'firebase/firestore/lite';
+import { StyleSheet, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginPage from './view/LoginPage';
 
-function App(): React.JSX.Element {
-  const [cities, setCities] = useState('');
+// Initialize the stack navigator
+const Stack = createStackNavigator();
 
-  // Get a list of cities from your database
-  const getCities = async () => {
-    const citiesCol = collection(db, 'cities');
-    const citySnapshot = await getDocs(citiesCol);
-    citySnapshot.docs
-      .map(doc => doc.data())
-      .forEach(city => {
-        setCities(city.name);
-      });
-  };
-
-  //Set cities to state
-  const addCity = (city: string) => {
-    const citiesCol = collection(db, 'cities');
-    const docRef = doc(citiesCol);
-    setDoc(docRef, {name: city});
-  };
-
-  useEffect(() => {
-    addCity('New York');
-    getCities();
-  }, []);
-
+export default function App() {
   return (
-    <View>
-      <Text>{cities}</Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="LoginPage">
+        <Stack.Screen name="LoginPage" component={LoginPage} options={{ headerShown: false }} />
+        {/* ... other routes ... */}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-export default App;
+
+
