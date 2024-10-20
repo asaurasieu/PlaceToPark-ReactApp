@@ -8,6 +8,8 @@ import BottomNavigation  from './view/BottomNavigation';
 import EditProfile from './view/EditProfile';
 import SearchScreen from './view/SearchScreen';
 import SlotsScreen from './view/SlotsScreen';
+import LoadingScreen from './view/LoadingScreen';
+import RegistrationScreen from './view/RegistrationScreen'; 
 
 enableScreens();
 
@@ -25,6 +27,8 @@ export default function App() {
            <Stack.Screen name="EditProfile" component={EditProfile} />
            <Stack.Screen name="StackSearch" component={SearchScreen} />
            <Stack.Screen name="SlotsScreen" component={SlotsScreen} />
+           <Stack.Screen name="Loading" component={LoadingScreen} />
+           <Stack.Screen name="RegistrationScreen" component={RegistrationScreen} />
           {/* Other screens can be added here */}
         </Stack.Navigator>
       </NavigationContainer>

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Alert, Image, SafeAreaView, Text, TextInput } from 'react-native';
+import { Alert, Image, Text, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
+import auth from '@react-native-firebase/auth';
 
 const carLogo = require('../assets/Car.png');
 
 export default function LoginPage() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     // Get the navigation object
@@ -16,27 +17,55 @@ export default function LoginPage() {
 
     // Call this function when login is successful
     const handleLogin = () => {
-        // Simulate a login success
-        Alert.alert("Login Successful!", "", [
-            { text: "OK", onPress: () => navigation.navigate('ProfileStack', { screen: 'Profile' }) }
-        ]);
-    }
+        if (email === '' || password === '') {
+            Alert.alert('Error, please enter your email and password.');
+            return;
+        }
+
+        auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                console.log('User logged in: ', userCredential.user);
+                Alert.alert('Login successful!', '', [
+                    { text: 'OK', onPress: () => navigation.navigate('ProfileStack', { screen: 'Profile' })},
+                ]);
+            })
+            .catch(error => {
+                let errorMessage;
+                switch (error.code) {
+                    case 'auth/invalid-email':
+                        errorMessage = 'That email address is invalid!';
+                        break;
+                    case 'auth/user-not-found':
+                        errorMessage = 'There is no user corresponding to this email.';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage = 'The password is incorrect.';
+                        break;
+                    default:
+                        errorMessage = error.message;
+                }
+                Alert.alert('Login Failed', errorMessage);
+            });
+};
 
     return (
         <GestureHandlerRootView style={styles.container}>
             <StatusBar style="light" />
-            <Image source={carLogo} style={styles.image} resizeMode='contain' />
+            <Image source={carLogo} style={styles.image} resizeMode="contain" />
             <Text style={styles.welcome}>WELCOME TO THE NEW ERA OF SMART PARKING</Text>
             <TextInput
                 style={styles.input}
-                placeholder='Username'
+                placeholder="Email"
                 placeholderTextColor="#888"
-                value={username}
-                onChangeText={setUsername}
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
             />
             <TextInput
                 style={styles.input}
-                placeholder='Password'
+                placeholder="Password"
                 placeholderTextColor="#888"
                 secureTextEntry
                 value={password}
@@ -50,13 +79,19 @@ export default function LoginPage() {
             </RectButton>
             <Text
                 style={styles.forgotPassword}
-                onPress={() => Alert.alert("Forget Password!")}
+                onPress={() => Alert.alert('Forget Password!')}
             >
                 Forgot password?
             </Text>
+            <Text
+                style={styles.signUpLink}
+                onPress={() => navigation.navigate('RegistrationScreen')}
+            >
+                Don't have an account? Sign Up
+            </Text>
         </GestureHandlerRootView>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -99,9 +134,10 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 15,
     },
-    buttonText: {
+    signUpLink: {
         color: 'white',
-        fontSize: 20,
-        fontWeight: 'bold',
+        marginTop: 15,
+        fontSize: 14,
+        textDecorationLine: 'underline',
     },
 });

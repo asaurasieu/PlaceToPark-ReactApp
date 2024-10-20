@@ -4,12 +4,12 @@ import {getFirestore} from 'firebase/firestore';
 import {getStorage} from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBuboD_Mv91hBQ1_yDk8ngQ1W6zBcwMuEw',
-  authDomain: 'proyecto-parking-aa0e2.firebaseapp.com',
-  projectId: 'proyecto-parking-aa0e2',
-  storageBucket: 'proyecto-parking-aa0e2.appspot.com',
-  messagingSenderId: '442480217286',
-  appId: '1:442480217286:web:d85af3f52afb1fd5089bc7',
+  apiKey: '',
+  authDomain: '',
+  projectId: '',
+  storageBucket: '',
+  messagingSenderId: '',
+  appId: '',
 };
 
 if (firebase.apps.length === 0) {

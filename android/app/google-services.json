@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "442480217286",
+    "project_id": "proyecto-parking-aa0e2",
+    "storage_bucket": "proyecto-parking-aa0e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:442480217286:android:603ff124b9e3b104089bc7",
+        "android_client_info": {
+          "package_name": "com.parking.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGBZkRnLsKoh5i09IwHzh8M2DDlU6VU3k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
