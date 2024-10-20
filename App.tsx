@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { enableScreens } from 'react-native-screens';
-import { Text, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginPage from './view/LoginPage';
@@ -9,7 +9,7 @@ import EditProfile from './view/EditProfile';
 import SearchScreen from './view/SearchScreen';
 import SlotsScreen from './view/SlotsScreen';
 import LoadingScreen from './view/LoadingScreen';
-import RegistrationScreen from './view/RegistrationScreen'; 
+import RegistrationScreen from './view/RegistrationScreen';
 
 enableScreens();
 
