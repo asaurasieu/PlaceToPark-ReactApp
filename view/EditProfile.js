@@ -1,25 +1,48 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Image, StyleSheet, Alert } from 'react-native';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
+import db from '@react-native-firebase/firestore';
 
-const EditProfile = () => {
+const EditProfile = ({ navigation, route }) => {
     const [name, setName] = useState('Amanda Richard');
-    const [email, setEmail] = useState('ARichardson90@gmail.com');
-    const [password, setPassword] = useState('********');
     const [dateOfBirth, setDateOfBirth] = useState('01/01/1990');
-
+    console.log(route);
     const onProfileImagePress = () => {
         console.log('Profile image pressed!');
     };
 
+    const save = () => {
+        setProfile();
+    };
+
+    const setProfile = () => {
+        let user = {
+            nombre: name,
+            // foto: rutaFoto.uri !== '' ? email + '_image' : '',
+        };
+        db()
+            .collection('users').doc(route.params).set(user).then(() => {
+                Alert.alert('User Updated', 'Sucessfull!');
+            }).catch((error) => {
+                Alert.alert('Registration', 'Error: ' + error);
+            });
+    };
     return (
         <GestureHandlerRootView style={styles.container}>
-            <RectButton onPress={onProfileImagePress} style={styles.profileImageContainer}>
-                <Image
-                    source={require('../assets/profile.jpg')}
-                    style={styles.profileImage}
-                />
-            </RectButton>
+            <View style={styles.container}>
+                <RectButton onPress={onProfileImagePress} style={styles.profileImageContainer}>
+                    <Image
+                        source={require('../assets/profile.jpg')}
+                        style={styles.profileImage}
+                    />
+                </RectButton>
+
+            </View>
+            <View style={styles.container}>
+                <RectButton onPress={save} style={styles.saveButton}>
+                    <Text style={styles.saveButtonText}>Save</Text>
+                </RectButton>
+            </View>
 
             <View style={styles.inputContainer}>
                 <Text style={styles.label}>Name</Text>
@@ -27,26 +50,6 @@ const EditProfile = () => {
                     style={styles.input}
                     onChangeText={setName}
                     value={name}
-                />
-            </View>
-
-            <View style={styles.inputContainer}>
-                <Text style={styles.label}>Email</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={setEmail}
-                    value={email}
-                    keyboardType="email-address"
-                />
-            </View>
-
-            <View style={styles.inputContainer}>
-                <Text style={styles.label}>Password</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={setPassword}
-                    value={password}
-                    secureTextEntry
                 />
             </View>
 

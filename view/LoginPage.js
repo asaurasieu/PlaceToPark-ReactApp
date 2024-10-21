@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert, Image, Text, TextInput } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
@@ -8,12 +7,9 @@ import auth from '@react-native-firebase/auth';
 
 const carLogo = require('../assets/Car.png');
 
-export default function LoginPage() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    // Get the navigation object
-    const navigation = useNavigation();
+export default function LoginPage({ navigation }) {
+    const [email, setEmail] = useState('freakingcoding404@gmail.com');
+    const [password, setPassword] = useState('smile123');
 
     // Call this function when login is successful
     const handleLogin = () => {
@@ -26,8 +22,9 @@ export default function LoginPage() {
             .signInWithEmailAndPassword(email, password)
             .then(userCredential => {
                 console.log('User logged in: ', userCredential.user);
+                console.log('Email logged in: ', email);
                 Alert.alert('Login successful!', '', [
-                    { text: 'OK', onPress: () => navigation.navigate('ProfileStack', { screen: 'Profile' })},
+                    { text: 'OK', onPress: () => navigation.navigate('ProfileStack', { email: email }) },
                 ]);
             })
             .catch(error => {
@@ -47,7 +44,36 @@ export default function LoginPage() {
                 }
                 Alert.alert('Login Failed', errorMessage);
             });
-};
+    };
+
+    const handleForgotPassword = () => {
+        if (email === '') {
+            Alert.alert('Please enter your email address to reset your password.');
+            return;
+        }
+
+        auth()
+            .sendPasswordResetEmail(email)
+            .then(() => {
+                Alert.alert('Password reset email sent!', 'Please check your email.', [
+                    { text: 'OK', onPress: () => navigation.navigate('LoginPage') },
+                ]);
+            })
+            .catch(error => {
+                let errorMessage;
+                switch (error.code) {
+                    case 'auth/invalid-email':
+                        errorMessage = 'That email address is invalid!';
+                        break;
+                    case 'auth/user-not-found':
+                        errorMessage = 'There is no user corresponding to this email.';
+                        break;
+                    default:
+                        errorMessage = error.message;
+                }
+                Alert.alert('Password Reset Failed', errorMessage);
+            });
+    };
 
     return (
         <GestureHandlerRootView style={styles.container}>
@@ -79,7 +105,7 @@ export default function LoginPage() {
             </RectButton>
             <Text
                 style={styles.forgotPassword}
-                onPress={() => Alert.alert('Forget Password!')}
+                onPress={handleForgotPassword}
             >
                 Forgot password?
             </Text>
