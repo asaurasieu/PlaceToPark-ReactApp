@@ -25,17 +25,17 @@ const TabIcon = ({ route, focused, color, size }) => {
     return <Ionicons name={iconName} size={size} color={color} />;
 };
 
-const BottomNavigation = () => {
+const BottomNavigation = ({ route }) => {
     return (
         <Tab.Navigator
             initialRouteName="Profile"
-            screenOptions={({ route }) => ({
+            screenOptions={() => ({
                 tabBarIcon: (props) => <TabIcon route={route} {...props} />, // Updated to use TabIcon
                 tabBarActiveTintColor: 'tomato',
                 tabBarInactiveTintColor: 'gray',
             })}
         >
-            <Tab.Screen name="Profile" component={ProfileScreen} />
+            <Tab.Screen name="Profile" component={ProfileScreen} initialParams={{ email: route.params.email }} />
             <Tab.Screen name="Search" component={SearchScreen} />
             <Tab.Screen name="Map" component={MapScreen} />
             <Tab.Screen name="Settings" component={SettingScreen} />

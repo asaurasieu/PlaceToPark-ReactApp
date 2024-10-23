@@ -3,25 +3,21 @@ import { View, Text, TextInput, Image, StyleSheet, Alert } from 'react-native';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
 import db from '@react-native-firebase/firestore';
 
+
 const EditProfile = ({ navigation, route }) => {
     const [name, setName] = useState('Amanda Richard');
     const [dateOfBirth, setDateOfBirth] = useState('01/01/1990');
-    console.log(route);
     const onProfileImagePress = () => {
         console.log('Profile image pressed!');
     };
 
     const save = () => {
-        setProfile();
-    };
-
-    const setProfile = () => {
         let user = {
-            nombre: name,
+            name: name,
             // foto: rutaFoto.uri !== '' ? email + '_image' : '',
         };
         db()
-            .collection('users').doc(route.params).set(user).then(() => {
+            .collection('users').doc(route.params.email).set(user).then(() => {
                 Alert.alert('User Updated', 'Sucessfull!');
             }).catch((error) => {
                 Alert.alert('Registration', 'Error: ' + error);

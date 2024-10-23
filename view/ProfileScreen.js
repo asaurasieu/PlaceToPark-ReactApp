@@ -1,10 +1,30 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, StyleSheet, ScrollView, Alert } from 'react-native';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import db from '@react-native-firebase/firestore';
 
-const ProfileScreen = () => {
-    const navigation = useNavigation();
+const ProfileScreen = ({ route, navigation }) => {
+    console.log(route.params);
+    const [name, setName] = useState('');
+
+
+    const loadUser = () => {
+
+        db()
+            .collection('users').doc(route.params.email).get().then((user) => {
+                console.log(user);
+                if (!user.exists) {
+                    Alert.alert('User not found', 'User not found');
+                } else {
+                    const data = user.data();
+                    setName(data.name);
+                    console.log(data);
+                }
+            }).catch((error) => {
+                Alert.alert('Registration', 'Error: ' + error);
+            });
+    };
 
     // Sample data for recently visited locations
     const recentlyVisited = [
@@ -14,6 +34,9 @@ const ProfileScreen = () => {
         "Calle de la Princesa, 40",
         "Calle de Serrano, 38"
     ];
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => { loadUser(); }, []);
 
     return (
         <GestureHandlerRootView style={styles.container}>
@@ -27,7 +50,7 @@ const ProfileScreen = () => {
                         source={require('../assets/profile.jpg')}
                         style={styles.profileImage}
                     />
-                    <Text style={styles.name}>Amanda Richard</Text>
+                    <Text style={styles.name}>{name}</Text>
                     <Text style={styles.profession}>Interior designer</Text>
                     <Text style={styles.location}>Madrid, Spain</Text>
                     <View style={styles.statsContainer}>
@@ -41,7 +64,7 @@ const ProfileScreen = () => {
                         </View>
                     </View>
                     <View style={styles.buttonContainer}>
-                        <RectButton style={styles.button} onPress={() => navigation.navigate('EditProfile')}>
+                        <RectButton style={styles.button} onPress={() => navigation.navigate('EditProfile', { email: route.params.email })} >
                             <Text style={styles.buttonText}>Edit Profile</Text>
                         </RectButton>
                         <RectButton style={[styles.button, styles.buttonOutline]}>
@@ -68,7 +91,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    contentContainer: { 
+    contentContainer: {
         alignItems: 'center',
         justifyContent: 'flex-start',
     },
