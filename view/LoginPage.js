@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, Image, Text, TextInput } from 'react-native';
-import { StatusBar } from 'react-native';
-import { StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, Image, Text, TextInput, StatusBar, StyleSheet } from 'react-native';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
+import { db } from '../common/firebase';
 
 const carLogo = require('../assets/Car.png');
 
 export default function LoginPage({ navigation }) {
-    const [email, setEmail] = useState('freakingcoding404@gmail.com');
-    const [password, setPassword] = useState('smile123');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     // Call this function when login is successful
     const handleLogin = () => {
@@ -20,12 +19,17 @@ export default function LoginPage({ navigation }) {
 
         auth()
             .signInWithEmailAndPassword(email, password)
-            .then(userCredential => {
+            .then(async userCredential => {
                 console.log('User logged in: ', userCredential.user);
                 console.log('Email logged in: ', email);
-                Alert.alert('Login successful!', '', [
-                    { text: 'OK', onPress: () => navigation.navigate('ProfileStack', { email: email }) },
-                ]);
+                const userDocRef = db.collection('users').doc(email);
+                const userDoc = await userDocRef.get();
+                if (userDoc.exists) {
+                    navigation.navigate('ProfileStack', { email: email });
+                } else {
+                    console.log('No user found, redirecting to EditProfile');
+                    navigation.navigate('EditProfile', { email: email });
+                }
             })
             .catch(error => {
                 let errorMessage;

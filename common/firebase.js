@@ -24,8 +24,8 @@ export {auth, db, storage};
 */
 
 // Import the functions you need from the SDKs you need
-import {initializeApp} from 'firebase/app';
-import {getFirestore} from 'firebase/firestore/lite';
+import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -40,5 +40,10 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const db = firestore();
+export { db };
 

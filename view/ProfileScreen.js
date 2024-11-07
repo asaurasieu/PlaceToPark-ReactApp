@@ -1,42 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, Alert } from 'react-native';
+import React, { useCallback } from 'react';
+import { View, Text, Image, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
-import db from '@react-native-firebase/firestore';
+import { useUser } from '../common/userContext';
+import { useFocusEffect } from '@react-navigation/native';
 
-const ProfileScreen = ({ route, navigation }) => {
-    console.log(route.params);
-    const [name, setName] = useState('');
+const ProfileScreen = ({ navigation }) => {
+    const userData = useUser();
 
+    useFocusEffect(
+        useCallback(() => {
+        }, [])
+    );
 
-    const loadUser = () => {
-
-        db()
-            .collection('users').doc(route.params.email).get().then((user) => {
-                console.log(user);
-                if (!user.exists) {
-                    Alert.alert('User not found', 'User not found');
-                } else {
-                    const data = user.data();
-                    setName(data.name);
-                    console.log(data);
-                }
-            }).catch((error) => {
-                Alert.alert('Registration', 'Error: ' + error);
-            });
-    };
-
-    // Sample data for recently visited locations
-    const recentlyVisited = [
-        "Gran Via, 71",
-        "Calle de Alcalá, 28",
-        "Paseo de la Castellana, 91",
-        "Calle de la Princesa, 40",
-        "Calle de Serrano, 38"
-    ];
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { loadUser(); }, []);
+    if (!userData) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text>Loading profile...</Text>
+            </View>
+        );
+    }
 
     return (
         <GestureHandlerRootView style={styles.container}>
@@ -50,9 +33,10 @@ const ProfileScreen = ({ route, navigation }) => {
                         source={require('../assets/profile.jpg')}
                         style={styles.profileImage}
                     />
-                    <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.profession}>Interior designer</Text>
-                    <Text style={styles.location}>Madrid, Spain</Text>
+                    <Text style={styles.name}>{userData.name || 'No Name Available'}</Text>
+                    <Text style={styles.profession}>{userData.profession || 'Profession not set'}</Text>
+                    <Text style={styles.location}>{userData.location || 'Location not set'}</Text>
+                    <Text style={styles.location}>{userData.dateOfBirth || 'Date of birth not set'}</Text>
                     <View style={styles.statsContainer}>
                         <View style={styles.statItem}>
                             <Text style={styles.statNumber}>30</Text>
@@ -64,7 +48,10 @@ const ProfileScreen = ({ route, navigation }) => {
                         </View>
                     </View>
                     <View style={styles.buttonContainer}>
-                        <RectButton style={styles.button} onPress={() => navigation.navigate('EditProfile', { email: route.params.email })} >
+                        <RectButton
+                            style={styles.button}
+                            onPress={() => navigation.navigate('EditProfile', { email: userData.email })}
+                        >
                             <Text style={styles.buttonText}>Edit Profile</Text>
                         </RectButton>
                         <RectButton style={[styles.button, styles.buttonOutline]}>
@@ -75,7 +62,7 @@ const ProfileScreen = ({ route, navigation }) => {
                     {/* Recently Visited Section */}
                     <View style={styles.recentlyVisitedSection}>
                         <Text style={styles.recentlyVisitedTitle}>Recently Visited</Text>
-                        {recentlyVisited.map((location, index) => (
+                        {["Gran Via, 71", "Calle de Alcalá, 28", "Paseo de la Castellana, 91", "Calle de la Princesa, 40", "Calle de Serrano, 38"].map((location, index) => (
                             <Text key={index} style={styles.recentlyVisitedText}>
                                 {location}
                             </Text>

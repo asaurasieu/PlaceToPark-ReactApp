@@ -5,6 +5,7 @@ import ProfileScreen from './ProfileScreen';
 import MapScreen from './MapScreen';
 import SettingScreen from './SettingScreen';
 import SearchScreen from './SearchScreen';
+import { UserProvider } from '../common/userContext';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,21 +27,27 @@ const TabIcon = ({ route, focused, color, size }) => {
 };
 
 const BottomNavigation = ({ route }) => {
+    const { email } = route.params;
+
     return (
-        <Tab.Navigator
-            initialRouteName="Profile"
-            screenOptions={() => ({
-                tabBarIcon: (props) => <TabIcon route={route} {...props} />, // Updated to use TabIcon
-                tabBarActiveTintColor: 'tomato',
-                tabBarInactiveTintColor: 'gray',
-            })}
-        >
-            <Tab.Screen name="Profile" component={ProfileScreen} initialParams={{ email: route.params.email }} />
-            <Tab.Screen name="Search" component={SearchScreen} />
-            <Tab.Screen name="Map" component={MapScreen} />
-            <Tab.Screen name="Settings" component={SettingScreen} />
-        </Tab.Navigator>
+        <UserProvider email={email}>
+            <Tab.Navigator
+                initialRouteName="Profile"
+                screenOptions={({ route: tabRoute }) => ({
+                    // eslint-disable-next-line react/no-unstable-nested-components
+                    tabBarIcon: (props) => <TabIcon route={tabRoute} {...props} />,
+                    tabBarActiveTintColor: 'tomato',
+                    tabBarInactiveTintColor: 'gray',
+                })}
+            >
+                <Tab.Screen name="Profile" component={ProfileScreen} />
+                <Tab.Screen name="Search" component={SearchScreen} />
+                <Tab.Screen name="Map" component={MapScreen} />
+                <Tab.Screen name="Settings" component={SettingScreen} />
+            </Tab.Navigator>
+        </UserProvider>
     );
 };
 
 export default BottomNavigation;
+
