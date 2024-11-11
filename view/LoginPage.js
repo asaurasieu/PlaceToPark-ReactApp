@@ -3,12 +3,13 @@ import { Alert, Image, Text, TextInput, StatusBar, StyleSheet } from 'react-nati
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 import { db } from '../common/firebase';
+import { useData } from '../common/userContext';
 
 const carLogo = require('../assets/Car.png');
 
 export default function LoginPage({ navigation }) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [password, setPassword] = useState('smile123');
+    const { setUserData, email, setEmail } = useData();
 
     // Call this function when login is successful
     const handleLogin = () => {
@@ -25,10 +26,11 @@ export default function LoginPage({ navigation }) {
                 const userDocRef = db.collection('users').doc(email);
                 const userDoc = await userDocRef.get();
                 if (userDoc.exists) {
-                    navigation.navigate('ProfileStack', { email: email });
+                    setUserData(userDoc.data());
+                    navigation.navigate('BottomNavigation');
                 } else {
                     console.log('No user found, redirecting to EditProfile');
-                    navigation.navigate('EditProfile', { email: email });
+                    navigation.navigate('EditProfile');
                 }
             })
             .catch(error => {

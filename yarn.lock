@@ -1771,25 +1771,25 @@
     prompts "^2.4.2"
     semver "^7.5.2"
 
-"@react-native-firebase/app@^21.1.0", "@react-native-firebase/app@21.1.0":
-  version "21.1.0"
-  resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-21.1.0.tgz"
-  integrity sha512-nb31yuAUqp39YD5YftdV6sOIjB9rk6J2tKpPiZfCsF70xkRxE+aQ1FhpmlGOorunqvK5Zrsf0rJzlbvLfgHIrQ==
+"@react-native-firebase/app@^21.3.0", "@react-native-firebase/app@21.1.0", "@react-native-firebase/app@21.3.0":
+  version "21.3.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-21.3.0.tgz"
+  integrity sha512-9Y1LzXuH8Aaa306awzX1493NqzvXqEfllPt0FJTZ+u9f7SXP5pIgcjupnROU8jKYmQQ7wi64T+dhjwPSe01QWg==
   dependencies:
     firebase "10.13.2"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^21.1.0":
-  version "21.1.0"
-  resolved "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-21.1.0.tgz"
-  integrity sha512-SoxrfdXmrpUwIIto127Zgb8J7UlKTkb9EVdcmquJ9ONeCW5vhZdQPsnpyX6qxCjWlnFyeUBCIG0T9zfWxa4xEQ==
+"@react-native-firebase/auth@^21.3.0":
+  version "21.3.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-21.3.0.tgz"
+  integrity sha512-+AJpcqLZL9YZV/hU33K/d7Y1K5stK4Ob0f+46xfjUl0z31ZsTCW6+RvtsG8a/T3G2tlFu5Bf0mXeRk3i234xFA==
   dependencies:
     plist "^3.1.0"
 
-"@react-native-firebase/firestore@^21.1.0":
-  version "21.1.0"
-  resolved "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-21.1.0.tgz"
-  integrity sha512-Xt39BVR9l0fEdl8zch38IGIclrUGtDctUgtfAdYj8adYzeOlQ2NLM5GGaDx3MwhTSPhJk7SRYGV9oMFftsgluQ==
+"@react-native-firebase/firestore@^21.3.0":
+  version "21.3.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-21.3.0.tgz"
+  integrity sha512-b1bB8sXRM8ayAiU0zfcnsK6+JHWkdSuFfg0YZfejSibGgd4hStyc6thkoPXWmFPttvKydwvb5XnRO3vheR1PoA==
 
 "@react-native-firebase/messaging@^21.1.0":
   version "21.1.0"
@@ -2930,11 +2930,6 @@ encodeurl@~1.0.2:
 encodeurl@~2.0.0:
   version "2.0.0"
 
-encoding@^0.1.0:
-  version "0.1.13"
-  dependencies:
-    iconv-lite "^0.6.2"
-
 env-paths@^2.2.1:
   version "2.2.1"
 
@@ -3634,11 +3629,6 @@ http-parser-js@>=0.5.1:
 
 human-signals@^2.1.0:
   version "2.1.0"
-
-iconv-lite@^0.6.2:
-  version "0.6.3"
-  dependencies:
-    safer-buffer ">= 2.1.2 < 3.0.0"
 
 idb@7.1.1:
   version "7.1.1"
@@ -5338,9 +5328,6 @@ safe-regex-test@^1.0.3:
     call-bind "^1.0.6"
     es-errors "^1.3.0"
     is-regex "^1.1.4"
-
-"safer-buffer@>= 2.1.2 < 3.0.0":
-  version "2.1.2"
 
 scheduler@^0.23.2:
   version "0.23.2"

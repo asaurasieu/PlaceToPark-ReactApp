@@ -1,25 +1,11 @@
-import React, { useCallback } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import React from 'react';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
-import { useUser } from '../common/userContext';
-import { useFocusEffect } from '@react-navigation/native';
+import { useData } from '../common/userContext';
 
-const ProfileScreen = ({ navigation }) => {
-    const userData = useUser();
 
-    useFocusEffect(
-        useCallback(() => {
-        }, [])
-    );
-
-    if (!userData) {
-        return (
-            <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
-                <Text>Loading profile...</Text>
-            </View>
-        );
-    }
+const ProfileScreen = ({ navigation, route }) => {
+    const { userData } = useData();
 
     return (
         <GestureHandlerRootView style={styles.container}>
@@ -50,7 +36,7 @@ const ProfileScreen = ({ navigation }) => {
                     <View style={styles.buttonContainer}>
                         <RectButton
                             style={styles.button}
-                            onPress={() => navigation.navigate('EditProfile', { email: userData.email })}
+                            onPress={() => navigation.navigate('EditProfile')}
                         >
                             <Text style={styles.buttonText}>Edit Profile</Text>
                         </RectButton>

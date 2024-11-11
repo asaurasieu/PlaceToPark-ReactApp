@@ -1,59 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
 //import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { db } from '../common/firebase.js';
+import { useData } from '../common/userContext';
+import { db } from '../common/firebase';
 
-
-const EditProfile = ({ navigation, route }) => {
-    const { email } = route.params;
-    const [name, setName] = useState('');
-    const [profession, setProfession] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState('');
-    const [location, setLocation] = useState('');
-
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const userDoc = await db.collection('users').doc(email).get();
-                if (userDoc.exists) {
-                    const data = userDoc.data();
-                    setName(data.name || '');
-                    setProfession(data.profession || '');
-                    setDateOfBirth(data.dateOfBirth || '');
-                    setLocation(data.location || '');
-                } else {
-                    console.warn('No such user found');
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
-        fetchUserData();
-    }, [email]);
+const EditProfile = ({ navigation }) => {
+    const { userData, setUserData, email } = useData();
+    const [name, setName] = useState(userData?.name || '');
+    const [profession, setProfession] = useState(userData?.profession || '');
+    const [dateOfBirth, setDateOfBirth] = useState(userData?.dateOfBirth || '');
+    const [location, setLocation] = useState(userData?.location || '');
 
     const save = () => {
-        const user = {
-            name: name || 'Unknown',
-            profession: profession || 'Not specified',
-            dateOfBirth: dateOfBirth || 'Not provided',
-            location: location || 'Unknown',
-            // foto: rutaFoto.uri !== '' ? email + '_image' : '',
+        if (!userData) {
+            console.error('No userData available');
+            return;
+        }
+
+        const updatedUser = {
+            name,
+            profession,
+            dateOfBirth,
+            location,
+            lastSearch: [],
         };
 
-        console.log('User data to save:', user);
+        console.log('User data to save:', updatedUser);
 
         db.collection('users')
             .doc(email)
-            .set(user, { merge: true })
+            .set(updatedUser, { merge: true })
             .then(() => {
                 Alert.alert('User Updated', 'Sucessfull!');
-                navigation.navigate('ProfileStack', { email: email });
+                setUserData(updatedUser);
+                navigation.navigate('BottomNavigation');
             })
             .catch((error) => {
                 Alert.alert('Save Error', 'Failed to save profile: ' + error.message);
             });
     };
+
+    if (!userData) {
+        return <Text>Loading...</Text>; // Display loading state if userData is null
+    }
 
     return (
         <GestureHandlerRootView style={styles.container}>

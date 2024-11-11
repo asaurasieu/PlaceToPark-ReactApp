@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { View, TextInput, Image, Text, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
 
+import { useData } from '../common/userContext';
+
 const localImage = require('../assets/ciervos.jpg');
 
-const SearchScreen = () => {
-    const navigation = useNavigation();
+const SearchScreen = ({ navigation }) => {
+    const { userData, setUserData, email } = useData();
     const [locationName, setLocationName] = useState('');
     const [showImage, setShowImage] = useState(false);
+
 
     const locationData = {
         name: "Plaza de la Moraleja",
@@ -23,6 +25,29 @@ const SearchScreen = () => {
 
     const onSearch = () => {
         console.log('Searching for:', locationName);
+
+        if (!userData) {
+            console.error('No userData available');
+            return;
+        }
+
+        const updatedUser = {
+            lastSearch: [],
+        };
+
+        console.log('User data to save:', updatedUser);
+
+        db.collection('users')
+            .doc(email)
+            .set(updatedUser, { merge: true })
+            .then(() => {
+                Alert.alert('User Updated', 'Sucessfull!');
+                setUserData(updatedUser);
+                navigation.navigate('BottomNavigation');
+            })
+            .catch((error) => {
+                Alert.alert('Save Error', 'Failed to save profile: ' + error.message);
+            });
         setShowImage(true);
     };
 
