@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
+import DatePicker from 'react-native-date-picker';
+
 //import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useData } from '../common/userContext';
 import { db } from '../common/firebase';
-import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 
 const EditProfile = ({ navigation }) => {
     const { userData, setUserData, email } = useData();
     const [name, setName] = useState(userData?.name || '');
     const [profession, setProfession] = useState(userData?.profession || '');
-    const [dateOfBirth, setDateOfBirth] = useState(moment(new Date()).format('YYYY-MM-DD'));
+    const [dateOfBirth, setDateOfBirth] = useState(new Date());
     const [location, setLocation] = useState(userData?.location || '');
-    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-
-    const years = Array.from({ length: 101 }, (_, i) => new Date().getFullYear() - i);
 
     const verificationAge = (date) => {
         const today = moment();
-        const momentDate = moment(date, 'YYYY-MM-DD');
+        const momentDate = moment(date);
         const age = today.diff(momentDate, 'years');
         return age >= 18;
     };
@@ -39,7 +36,7 @@ const EditProfile = ({ navigation }) => {
         const updatedUser = {
             name,
             profession,
-            dateOfBirth,
+            dateOfBirth: moment(dateOfBirth).format('YYYY-MM-DD'),
             location,
             lastSearch: userData?.lastSearch || [],
             created: userData?.created || new Date(),
@@ -86,34 +83,12 @@ const EditProfile = ({ navigation }) => {
             </View>
             <View style={styles.inputContainer}>
                 <Text style={styles.label}>Date of Birth</Text>
-                <View style={styles.pickerContainer}>
-                    <Text style={styles.label}>Year</Text>
-                    <Picker
-                        selectedValue={selectedYear}
-                        onValueChange={(itemValue) => {
-                            setSelectedYear(itemValue);
-                            const firstDayOfYear = `${itemValue}-01-01`;
-                            setDateOfBirth(firstDayOfYear); // Set default date as Jan 1 of the selected year
-                        }}
-                        style={styles.picker}
-                    >
-                        {years.map((year) => (
-                            <Picker.Item key={year} label={year.toString()} value={year} />
-                        ))}
-                    </Picker>
-                </View>
-                <Calendar
-                    current={`${selectedYear}-01-01`}
-                    onDayPress={(day) => setDateOfBirth(day.dateString)}
-                    markedDates={{
-                        [dateOfBirth]: { selected: true, selectedColor: '#007bff' },
-                    }}
-                    style={styles.calendar}
-                    theme={{
-                        textDayFontSize: 12,
-                        textMonthFontSize: 14,
-                        textDayHeaderFontSize: 12,
-                    }}
+                <DatePicker
+                    date={dateOfBirth}
+                    mode="date"
+                    onDateChange={setDateOfBirth}
+                    textColor="black"
+                    androidVariant="nativeAndroid" // Optimized for native Android look
                 />
             </View>
             <View style={styles.inputContainer}>
@@ -154,19 +129,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         padding: 10,
     },
-    pickerContainer: {
-        marginVertical: 10,
-    },
-    picker: {
-        height: 50,
-        width: '100%',
-        backgroundColor: '#f0f0f0',
-        borderRadius: 5,
-    },
-    calendar: {
-        borderRadius: 10,
-        marginTop: 10,
-    },
     saveButton: {
         backgroundColor: '#007bff',
         padding: 10,
@@ -179,5 +141,4 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
 });
-
 export default EditProfile;
