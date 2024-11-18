@@ -48,11 +48,15 @@ const ProfileScreen = ({ navigation, route }) => {
                     {/* Recently Visited Section */}
                     <View style={styles.recentlyVisitedSection}>
                         <Text style={styles.recentlyVisitedTitle}>Recently Visited</Text>
-                        {["Gran Via, 71", "Calle de Alcalá, 28", "Paseo de la Castellana, 91", "Calle de la Princesa, 40", "Calle de Serrano, 38"].map((location, index) => (
-                            <Text key={index} style={styles.recentlyVisitedText}>
-                                {location}
-                            </Text>
-                        ))}
+                        {userData?.lastSearch && userData.lastSearch.length > 0 ? (
+                            userData.lastSearch.map((location, index) => (
+                                <Text key={index} style={styles.recentlyVisitedText}>
+                                    {location}
+                                </Text>
+                            ))
+                        ) : (
+                            <Text style={styles.recentlyVisitedText}>No recent searches</Text>
+                        )}
                     </View>
                 </View>
             </ScrollView>

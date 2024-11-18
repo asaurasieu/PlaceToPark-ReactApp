@@ -1,65 +1,79 @@
 import React, { useState } from 'react';
-import { View, TextInput, Image, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Image, Text, StyleSheet, Alert } from 'react-native';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { REACT_APP_GOOGLE_API_KEY } from '@env'; // Ensure your `.env` is configured properly
 
 import { useData } from '../common/userContext';
+import { db } from '../common/firebase';
 
 const localImage = require('../assets/ciervos.jpg');
 
 const SearchScreen = ({ navigation }) => {
     const { userData, setUserData, email } = useData();
-    const [locationName, setLocationName] = useState('');
+    const [locationSearch, setLocationSearch] = useState('');
     const [showImage, setShowImage] = useState(false);
-
+    const [isFocused, setIsFocused] = useState(false);
 
     const locationData = {
-        name: "Plaza de la Moraleja",
-        address: "C. de la Estafeta, 2, 28109 Alcobendas, Madrid",
-        imageUri: localImage, // Now using local image
+        address: locationSearch,
+        imageUri: localImage,
+    };
+
+    const handleSearchSelection = (location) => {
+        setLocationSearch(location);
+
+        // Update the user's lastSearch array
+        const updatedLastSearch = [location, ...(userData.lastSearch || [])].slice(0, 4);
+
+        const updatedUserData = {
+            ...userData,
+            lastSearch: updatedLastSearch,
+        };
+
+        // Save the updated search history to the database
+        db.collection('users')
+            .doc(email)
+            .set(updatedUserData, { merge: true })
+            .then(() => {
+                setUserData(updatedUserData);
+            })
+            .catch((error) => {
+                Alert.alert('Error', 'Failed to save search: ' + error.message);
+            });
     };
 
     const onImagePress = () => {
-        navigation.navigate('SlotsScreen');
-    };
-
-    const onSearch = () => {
-        console.log('Searching for:', locationName);
-
-        if (!userData) {
-            console.error('No userData available');
+        if (!locationSearch) {
+            Alert.alert('Error', 'Please select a location first.');
             return;
         }
 
-        const updatedUser = {
-            lastSearch: [],
-        };
-
-        console.log('User data to save:', updatedUser);
-
-        db.collection('users')
-            .doc(email)
-            .set(updatedUser, { merge: true })
-            .then(() => {
-                Alert.alert('User Updated', 'Sucessfull!');
-                setUserData(updatedUser);
-                navigation.navigate('BottomNavigation');
-            })
-            .catch((error) => {
-                Alert.alert('Save Error', 'Failed to save profile: ' + error.message);
-            });
-        setShowImage(true);
+        navigation.navigate('SlotsScreen');
     };
 
     return (
         <GestureHandlerRootView style={styles.container}>
-            <View style={styles.searchSection}>
-                <Icon style={styles.searchIcon} name="search" size={20} color="#000" onPress={onSearch} />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Enter location name"
-                    onChangeText={setLocationName}
-                    value={locationName}
+            <View style={styles.inputContainer}>
+                <GooglePlacesAutocomplete
+                    placeholder="Search for a location"
+                    onPress={(data, details = null) => {
+                        handleSearchSelection(data.description);
+                        setShowImage(true);
+                    }}
+                    query={{
+                        key: REACT_APP_GOOGLE_API_KEY,
+                        language: 'en',
+                    }}
+                    styles={{
+                        textInput: isFocused ? styles.textInputFocused : styles.textInput,
+                        container: { flex: 0 },
+                        listView: styles.listView,
+                    }}
+                    textInputProps={{
+                        onFocus: () => setIsFocused(true),
+                        onBlur: () => setIsFocused(false),
+                    }}
                 />
             </View>
             {showImage && (
@@ -67,9 +81,8 @@ const SearchScreen = ({ navigation }) => {
                     <Image
                         source={locationData.imageUri}
                         style={styles.image}
-                        onError={(e) => console.log('Error loading image:', e)}
+                        onError={(e) => console.log('Error loading image:', e.nativeEvent.error)}
                     />
-                    <Text style={styles.text}>{locationData.name}</Text>
                     <Text style={styles.text}>{locationData.address}</Text>
                 </RectButton>
             )}
@@ -81,57 +94,65 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-    },
-    header: {
-        paddingTop: '10%', // Adjust for status bar height
-        paddingBottom: 10,
-        backgroundColor: '#f0f0f0', // Adjust the color to match your prototype
+        paddingTop: 60,
         alignItems: 'center',
-        justifyContent: 'center',
     },
-    headerTitle: {
-        fontSize: 20, // Adjust as needed
-        fontWeight: 'bold',
-        color: '#000', // Adjust as per your header text color
-    },
-    searchSection: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: '#e0e0e0', // Adjust the color to match your prototype
-        borderRadius: 20, // Adjust to match the prototype's search bar border radius
-        marginHorizontal: 20, // Adjust as per your prototype's horizontal margin
-        marginTop: 20, // Adjust as per your prototype's top margin
-        paddingHorizontal: 15, // Adjust for inner spacing
-        height: 40,
-    },
-    searchIcon: {
+    inputContainer: {
+        width: '90%',
+        borderRadius: 25,
+        backgroundColor: '#f9f9f9',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        elevation: 4,
         padding: 5,
-        color: '#000',
     },
-    input: {
-        flex: 1,
-        padding: 0,
-        color: '#424242',
+    textInput: {
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: '#fff',
+        paddingLeft: 20,
+        fontSize: 16,
+        color: '#000',
+        borderWidth: 1,
+        borderColor: '#ddd',
+    },
+    textInputFocused: {
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: '#fff',
+        paddingLeft: 20,
+        fontSize: 16,
+        color: '#000',
+        borderWidth: 1,
+        borderColor: '#007BFF',
+    },
+    listView: {
+        backgroundColor: '#fff',
+        borderRadius: 15,
+        marginHorizontal: 10,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
     },
     imageContainer: {
+        marginTop: 20,
         alignItems: 'center',
-        marginVertical: 20,
-        width: '90%', // Adjust as per your prototype's image width
-        alignSelf: 'center',
+        width: '90%',
     },
     image: {
-        borderRadius: 10,
         width: '100%',
-        height: 200, // Adjust as per your prototype's image height
+        height: 200,
+        borderRadius: 15,
     },
     text: {
-        textAlign: 'center',
-        marginTop: 5,
+        marginTop: 10,
+        fontSize: 16,
         color: '#000',
-    },
-    bottomNavigation: {
-        // Additional styles if needed
+        textAlign: 'center',
     },
 });
 

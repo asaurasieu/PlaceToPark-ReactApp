@@ -11,6 +11,7 @@ import SlotsScreen from './view/SlotsScreen';
 import LoadingScreen from './view/LoadingScreen';
 import RegistrationScreen from './view/RegistrationScreen';
 import { DataProvider } from './common/userContext';
+import 'react-native-get-random-values';
 
 enableScreens();
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Icon } from 'react-native-eva-icons';
 import ProfileScreen from './ProfileScreen';
 import MapScreen from './MapScreen';
 import SettingScreen from './SettingScreen';
 import SearchScreen from './SearchScreen';
-import { UserProvider } from '../common/userContext';
+import { DataProvider } from '../common/userContext';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,17 +14,16 @@ const TabIcon = ({ route, focused, color, size }) => {
     let iconName;
 
     if (route.name === 'Profile') {
-        iconName = focused ? 'person-circle' : 'person-circle-outline';
+        iconName = focused ? 'person' : 'person-outline';
     } else if (route.name === 'Search') {
-        iconName = 'search-outline';
+        iconName = focused ? 'search' : 'search-outline';
     } else if (route.name === 'Map') {
         iconName = 'map-outline';
     } else if (route.name === 'Settings') {
-        iconName = 'cog-outline';
+        iconName = 'settings-outline';
     }
 
-
-    return <Ionicons name={iconName} size={size} color={color} />;
+    return <Icon name={iconName} width={size} height={size} fill={color} />;
 };
 
 const BottomNavigation = ({ route }) => {

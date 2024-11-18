@@ -1,24 +1,24 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Icon } from 'react-native-eva-icons';
 import { useNavigation } from '@react-navigation/native';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
 
 const settingsOptions = [
-    { title: 'Account', icon: 'person' },
-    { title: 'Notifications', icon: 'notifications' },
-    { title: 'Appearance', icon: 'color-palette' },
-    { title: 'Privacy & Security', icon: 'lock-closed' },
-    { title: 'Help and Support', icon: 'help' },
-    { title: 'Subscription', icon: 'card' },
-    { title: 'About', icon: 'information-circle' },
+    { title: 'Account', icon: 'person-outline' },
+    { title: 'Notifications', icon: 'bell-outline' },
+    { title: 'Appearance', icon: 'color-palette-outline' },
+    { title: 'Privacy & Security', icon: 'lock-outline' },
+    { title: 'Help and Support', icon: 'question-mark-circle-outline' },
+    { title: 'Subscription', icon: 'credit-card-outline' },
+    { title: 'About', icon: 'info-outline' },
 ];
 
 const SettingsItem = ({ title, icon }) => (
     <RectButton style={styles.item}>
-        <Ionicons name={icon} size={24} style={styles.icon} />
+        <Icon name={icon} width={24} height={24} fill="#000" style={styles.icon} />
         <Text style={styles.text}>{title}</Text>
-        <Ionicons name="chevron-forward" size={24} style={styles.icon} />
+        <Icon name="arrow-ios-forward-outline" width={24} height={24} fill="#000" style={styles.icon} />
     </RectButton>
 );
 
