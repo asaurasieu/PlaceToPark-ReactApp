@@ -26,6 +26,8 @@ export {auth, db, storage};
 // Import the functions you need from the SDKs you need
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
+import { GeoFirestore } from 'geofirestore';
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -45,5 +47,8 @@ if (!firebase.apps.length) {
 }
 
 const db = firestore();
-export { db };
+const geoFirestore = new GeoFirestore(db);
+
+export { db, geoFirestore };
+
 

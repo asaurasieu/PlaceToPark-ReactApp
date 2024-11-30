@@ -60,6 +60,8 @@ const SearchScreen = ({ navigation }) => {
                     onPress={(data, details = null) => {
                         handleSearchSelection(data.description);
                         setShowImage(true);
+                        console.log(data);
+                        console.log(details);
                     }}
                     query={{
                         key: REACT_APP_GOOGLE_API_KEY,
