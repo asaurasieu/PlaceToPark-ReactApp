@@ -5,7 +5,8 @@ apply plugin: "com.facebook.react"
 
 project.ext.react = [
     codegenDir: "$rootDir/../node_modules/react-native/ReactCommon/react/renderer",
-    excludeCodegen: ['react-native-vector-icons']
+    excludeCodegen: ['react-native-vector-icons'],
+    nodeExecutableAndArgs: ["/Users/anita/.nvm/versions/node/v22.11.0/bin/node"]
 ]
 
 // React Native settings
