@@ -37,10 +37,6 @@ const ProfileScreen = ({navigation, route}) => {
               <Text style={styles.statNumber}>30</Text>
               <Text style={styles.statLabel}>Active days</Text>
             </View>
-            <View style={[styles.statItem, {marginLeft: -30}]}>
-              <Text style={styles.statNumber}>20</Text>
-              <Text style={styles.statLabel}>Friends</Text>
-            </View>
           </View>
           <View style={styles.buttonContainer}>
             <RectButton
