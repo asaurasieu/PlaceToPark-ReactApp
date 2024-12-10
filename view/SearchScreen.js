@@ -14,28 +14,29 @@ const SearchScreen = ({navigation}) => {
   const handleSearchSelection = async (location, description) => {
     console.log(location);
 
-    // Update the user's lastSearch array
-    const updatedLastSearch = [
-      description,
-      ...(userData.lastSearch || []),
-    ].slice(0, 4);
+    const duplicated =
+      userData.lastSearch && userData.lastSearch.includes(description);
+    if (!duplicated) {
+      const updatedLastSearch = [
+        description,
+        ...(userData.lastSearch || []),
+      ].slice(0, 4);
 
-    const updatedUserData = {
-      ...userData,
-      lastSearch: updatedLastSearch,
-    };
-
-    // Save the updated search history to the database
-    try {
-      await db
-        .collection('users')
-        .doc(email)
-        .set(updatedUserData, {merge: true});
-      setUserData(updatedUserData);
-    } catch (error) {
-      Alert.alert('Error', 'Failed to save search: ' + error.message);
+      const updatedUserData = {
+        ...userData,
+        lastSearch: updatedLastSearch,
+      };
+      // Save the updated search history to the database
+      try {
+        await db
+          .collection('users')
+          .doc(email)
+          .set(updatedUserData, {merge: true});
+        setUserData(updatedUserData);
+      } catch (error) {
+        Alert.alert('Error', 'Failed to save search: ' + error.message);
+      }
     }
-
     // Fetch parking data and calculate distances
     try {
       const parkingAreas = await fetchParkingAreas();
@@ -57,7 +58,6 @@ const SearchScreen = ({navigation}) => {
           id: '3',
           lat: 40.4705966308,
           lng: -3.6877971995,
-          num_finca: 242,
           num_plazas: 27,
         },
       });
@@ -145,13 +145,20 @@ const SearchScreen = ({navigation}) => {
           renderItem={({item}) => (
             <View style={styles.resultItem}>
               <Text style={styles.resultText}>
-                {item.area.calle} ({item.area.distrito})
+                {item.area.calle} {item.area.num_finca}
               </Text>
               <Text style={styles.resultText}>
                 Distance: {(item.distance / 1000).toFixed(2)} km
               </Text>
+              <Text style={styles.resultText}>Color: {item.area.color}</Text>
+              <Text style={styles.resultText}>
+                Type: {item.area.bateria_linea}
+              </Text>
               <Text style={styles.resultText}>
                 Spaces: {item.area.num_plazas}
+              </Text>
+              <Text style={styles.resultText}>
+                District = {item.area.distrito}
               </Text>
             </View>
           )}
