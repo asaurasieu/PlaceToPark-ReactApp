@@ -46,14 +46,14 @@ const ProfileScreen = ({navigation, route}) => {
             </RectButton>
             <RectButton style={[styles.button, styles.buttonOutline]}>
               <Text style={[styles.buttonText, styles.buttonOutlineText]}>
-                Add Friend
+                Favourites
               </Text>
             </RectButton>
           </View>
 
           {/* Recently Visited Section */}
           <View style={styles.recentlyVisitedSection}>
-            <Text style={styles.recentlyVisitedTitle}>Recently Visited</Text>
+            <Text style={styles.recentlyVisitedTitle}>Recently Searches</Text>
             {userData?.lastSearch && userData.lastSearch.length > 0 ? (
               userData.lastSearch.map((location, index) => (
                 <Text key={index} style={styles.recentlyVisitedText}>
