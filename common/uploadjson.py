@@ -17,16 +17,11 @@ def geolocation(file_path):
             
         collection_name = "parking_areas"
         for index, record in enumerate(data):
-            latitude = record.get("latitude")
-            longitude = record.get("longitude")
-            
-            location_data = {
-                "geohash": f"{latitude},{longitude}", 
-                "coordinates": {"latitude": latitude, "longitude": longitude}
-            }
-            
-            # merge location data with record
-            record["location"] = location_data
+            lat = record.get("lat")
+            lng = record.get("lng")
+        
+            record["lat"] = lat
+            record["lng"] = lng
             
             print(f"Uploading record {index + 1}/{len(data)}...")
 

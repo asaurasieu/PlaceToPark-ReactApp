@@ -46,7 +46,21 @@ const SearchScreen = ({navigation}) => {
       const nearest = distances
         .sort((a, b) => a.distance - b.distance)
         .slice(0, 3);
-      nearest.unshift({area: {barrio: "04-01 RECOLETOS", bateria_linea: "Batería", calle: "CASTELLO, CALLE, DE", "color": "077214010 Verde", "distrito": "04  SALAMANCA", "id": "1001", "latitude": 40.428568305, "longitude": -3.681224762, "num_finca": 63, "num_plazas": 21})
+      nearest.unshift({
+        distance: 1,
+        area: {
+          barrio: '05-06 CASTILLA',
+          bateria_linea: 'Batería',
+          calle: 'CASTELLANA, PASEO, DE LA',
+          color: '043000255 Azul',
+          distrito: '05 CHAMARTÍN',
+          id: '3',
+          lat: 40.4705966308,
+          lng: -3.6877971995,
+          num_finca: 242,
+          num_plazas: 27,
+        },
+      });
       setNearestAreas(nearest);
     } catch (error) {
       Alert.alert('Error', 'Failed to calculate distances: ' + error.message);
@@ -66,7 +80,7 @@ const SearchScreen = ({navigation}) => {
   const fetchDistances = async (origin, destinations) => {
     const destinationString = destinations
       .slice(0, 10)
-      .map(loc => `${loc.latitude},${loc.longitude}`)
+      .map(loc => `${loc.lat},${loc.lng}`)
       .join('|');
 
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destinationString}&key=${REACT_APP_GOOGLE_API_KEY}`;
@@ -78,7 +92,7 @@ const SearchScreen = ({navigation}) => {
       console.log(response);
       if (data.status === 'OK') {
         return data.rows[0].elements.map((el, index) => ({
-          distance: el.distance.value, // Distance in meters
+          distance: el.distance.value,
           area: destinations[index],
         }));
       } else {
@@ -127,7 +141,7 @@ const SearchScreen = ({navigation}) => {
       {nearestAreas.length > 0 && (
         <FlatList
           data={nearestAreas}
-          keyExtractor={item => item.area.id}
+          keyExtractor={(item, index) => `${item.area.id || index}`}
           renderItem={({item}) => (
             <View style={styles.resultItem}>
               <Text style={styles.resultText}>
