@@ -11,6 +11,16 @@ const SearchScreen = ({navigation}) => {
   const [nearestAreas, setNearestAreas] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
 
+  const fetchParkingAreas = async () => {
+    try {
+      const snapshot = await db.collection('parking_areas').get();
+      return snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+    } catch (error) {
+      Alert.alert('Error', 'Failed to fetch parking areas: ' + error.message);
+      return [];
+    }
+  };
+
   const handleSearchSelection = async (location, description) => {
     console.log(location);
 
@@ -67,16 +77,6 @@ const SearchScreen = ({navigation}) => {
     }
   };
 
-  const fetchParkingAreas = async () => {
-    try {
-      const snapshot = await db.collection('parking_areas').get();
-      return snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
-    } catch (error) {
-      Alert.alert('Error', 'Failed to fetch parking areas: ' + error.message);
-      return [];
-    }
-  };
-
   const fetchDistances = async (origin, destinations) => {
     const destinationString = destinations
       .slice(0, 10)
@@ -109,6 +109,12 @@ const SearchScreen = ({navigation}) => {
       );
       return [];
     }
+  };
+
+  const formatDistance = distance => {
+    return distance < 1000
+      ? `${distance} m`
+      : `${(distance / 1000).toFixed(2)} km`;
   };
 
   return (
@@ -148,7 +154,7 @@ const SearchScreen = ({navigation}) => {
                 {item.area.calle} {item.area.num_finca}
               </Text>
               <Text style={styles.resultText}>
-                Distance: {(item.distance / 1000).toFixed(2)} km
+                Distance: {formatDistance(item.distance)}
               </Text>
               <Text style={styles.resultText}>Color: {item.area.color}</Text>
               <Text style={styles.resultText}>
