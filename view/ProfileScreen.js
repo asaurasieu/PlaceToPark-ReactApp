@@ -11,15 +11,33 @@ const ProfileScreen = ({navigation, route}) => {
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.contentContainer}>
-        <Image
-          source={require('../assets/photo5.jpg')}
-          style={styles.coverImage}
-        />
-        <View style={styles.profileSection}>
+        {/* Dynamic Cover Image */}
+        {userData?.coverImage ? (
           <Image
-            source={require('../assets/profile.jpg')}
-            style={styles.profileImage}
+            source={{uri: userData.coverImage}}
+            style={styles.coverImage}
           />
+        ) : (
+          <Image
+            source={require('../assets/photo5.jpg')} // Default cover image
+            style={styles.coverImage}
+          />
+        )}
+
+        <View style={styles.profileSection}>
+          {/* Dynamic Profile Image */}
+          {userData?.profileImage ? (
+            <Image
+              source={{uri: userData.profileImage}}
+              style={styles.profileImage}
+            />
+          ) : (
+            <Image
+              source={require('../assets/profile.jpg')} // Default profile image
+              style={styles.profileImage}
+            />
+          )}
+
           <Text style={styles.name}>
             {userData.name || 'No Name Available'}
           </Text>
