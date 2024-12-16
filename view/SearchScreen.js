@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Alert, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  FlatList,
+  RectButton,
+  TouchableOpacity,
+} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {REACT_APP_GOOGLE_API_KEY} from '@env'; // Ensure your `.env` is configured properly
@@ -7,7 +15,7 @@ import {useData} from '../common/userContext';
 import {db} from '../common/firebase';
 
 const SearchScreen = ({navigation}) => {
-  const {userData, setUserData, email} = useData();
+  const {userData, setUserData, email, setSelectedParking} = useData();
   const [nearestAreas, setNearestAreas] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -52,7 +60,6 @@ const SearchScreen = ({navigation}) => {
       const parkingAreas = await fetchParkingAreas();
       const origin = `${location.lat},${location.lng}`;
       const distances = await fetchDistances(origin, parkingAreas);
-      console.log(distances);
 
       const nearest = distances
         .sort((a, b) => a.distance - b.distance)
@@ -68,7 +75,7 @@ const SearchScreen = ({navigation}) => {
           id: '3',
           lat: 40.4705966308,
           lng: -3.6877971995,
-          num_plazas: 27,
+          num_plazas: 26,
         },
       });
       setNearestAreas(nearest);
@@ -89,7 +96,6 @@ const SearchScreen = ({navigation}) => {
       const response = await fetch(url);
       const data = await response.json();
 
-      console.log(response);
       if (data.status === 'OK') {
         return data.rows[0].elements.map((el, index) => ({
           distance: el.distance.value,
@@ -115,6 +121,11 @@ const SearchScreen = ({navigation}) => {
     return distance < 1000
       ? `${distance} m`
       : `${(distance / 1000).toFixed(2)} km`;
+  };
+
+  const handleItemPress = item => {
+    setSelectedParking(item);
+    navigation.navigate('SlotsScreen');
   };
 
   return (
@@ -150,22 +161,24 @@ const SearchScreen = ({navigation}) => {
           keyExtractor={(item, index) => `${item.area.id || index}`}
           renderItem={({item}) => (
             <View style={styles.resultItem}>
-              <Text style={styles.resultText}>
-                {item.area.calle} {item.area.num_finca}
-              </Text>
-              <Text style={styles.resultText}>
-                Distance: {formatDistance(item.distance)}
-              </Text>
-              <Text style={styles.resultText}>Color: {item.area.color}</Text>
-              <Text style={styles.resultText}>
-                Type: {item.area.bateria_linea}
-              </Text>
-              <Text style={styles.resultText}>
-                Spaces: {item.area.num_plazas}
-              </Text>
-              <Text style={styles.resultText}>
-                District = {item.area.distrito}
-              </Text>
+              <TouchableOpacity onPress={() => handleItemPress(item)}>
+                <Text style={styles.resultText}>
+                  {item.area.calle} {item.area.num_finca}
+                </Text>
+                <Text style={styles.resultText}>
+                  Distance: {formatDistance(item.distance)}
+                </Text>
+                <Text style={styles.resultText}>Color: {item.area.color}</Text>
+                <Text style={styles.resultText}>
+                  Type: {item.area.bateria_linea}
+                </Text>
+                <Text style={styles.resultText}>
+                  Spaces: {item.area.num_plazas}
+                </Text>
+                <Text style={styles.resultText}>
+                  District = {item.area.distrito}
+                </Text>
+              </TouchableOpacity>
             </View>
           )}
         />
