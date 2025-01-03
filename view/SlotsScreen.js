@@ -1,11 +1,14 @@
 // SlotsScreen.js
 import React, {useState, useEffect} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
+import {RectButton} from 'react-native-gesture-handler';
 import {StatusBar} from 'react-native';
 import {useData} from '../common/userContext';
 
 export default function SlotsScreen() {
   const {selectedParking} = useData();
+  const navigation = useNavigation();
 
   const [parkingData, setParkingData] = useState({
     available: 0,
@@ -98,6 +101,13 @@ export default function SlotsScreen() {
           </View>
         ))}
       </ScrollView>
+      <View style={styles.navigateButtonContainer}>
+        <RectButton
+          onPress={() => navigation.navigate('MapScreen')}
+          style={styles.navigateButton}>
+          <Text style={styles.navigateButtonText}>Navigate To</Text>
+        </RectButton>
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -134,7 +144,7 @@ const styles = StyleSheet.create({
     margin: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10, // Add this if you want rounded corners
+    borderRadius: 10,
   },
   available: {
     backgroundColor: 'green',
@@ -144,6 +154,22 @@ const styles = StyleSheet.create({
   },
   spotText: {
     color: '#fff',
+    fontWeight: 'bold',
+  },
+  navigateButtonContainer: {
+    width: '100%',
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  navigateButton: {
+    backgroundColor: '#007bff',
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 25,
+  },
+  navigateButtonText: {
+    color: '#fff',
+    fontSize: 16,
     fontWeight: 'bold',
   },
 });

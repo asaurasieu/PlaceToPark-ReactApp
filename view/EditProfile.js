@@ -25,9 +25,7 @@ const EditProfile = ({navigation}) => {
   const [profession, setProfession] = useState(userData?.profession || '');
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [location, setLocation] = useState(userData?.location || '');
-  const [profileImage, setProfileImage] = useState(
-    userData?.profileImage || null,
-  );
+  const [profileImage] = useState(userData?.profileImage || null);
   const [coverImage, setCoverImage] = useState(userData?.coverImage || null);
 
   const verificationAge = date => {
