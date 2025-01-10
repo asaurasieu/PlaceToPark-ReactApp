@@ -1,11 +1,38 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import MapView, { Marker, Callout } from 'react-native-maps';
-import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
+import {StyleSheet, View, Text} from 'react-native';
+/* import MapView, { Marker, Callout } from 'react-native-maps'; */
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import {GestureHandlerRootView, RectButton} from 'react-native-gesture-handler';
 
 const MapScreen = () => {
-    // Define your parking spot coordinate here
-    const parkingSpot = {
+  return (
+    <View style={styles.container}>
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        style={styles.map}
+        region={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        }}
+      />
+    </View>
+  );
+};
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+});
+
+// Define your parking spot coordinate here
+/*    const parkingSpot = {
         latitude: 40.51551,
         longitude: -3.65141,
         title: 'Parking Spot',
@@ -38,7 +65,7 @@ const MapScreen = () => {
                     <Callout style={styles.callout}>
                         <View>
                             <Text style={styles.title}>Saba Parking Garage</Text>
-                            {/* Displaying the parking information */}
+                            {}
                             <Text>Open 24h</Text>
                             <Text>Distance: {parkingSpot.distance}</Text>
                             <Text>Spaces: {parkingSpot.spaces}</Text>
@@ -99,6 +126,6 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
-});
+}); */
 
 export default MapScreen;

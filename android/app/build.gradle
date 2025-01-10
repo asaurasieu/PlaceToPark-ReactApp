@@ -6,7 +6,8 @@ apply plugin: "com.facebook.react"
 project.ext.react = [
     codegenDir: "$rootDir/../node_modules/react-native/ReactCommon/react/renderer",
     eexcludeCodegen: ['react-native-vector-icons', 'react-native-image-picker'],
-    nodeExecutableAndArgs: ["/Users/anita/.nvm/versions/node/v22.11.0/bin/node"]
+    nodeExecutableAndArgs: ["/Users/anita/.nvm/versions/node/v22.11.0/bin/node"],
+    enableHermes: true  
 ]
 
 // React Native settings

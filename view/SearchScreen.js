@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import {REACT_APP_GOOGLE_API_KEY} from '@env'; // Ensure your `.env` is configured properly
+import {REACT_APP_GOOGLE_API_KEY} from '@env';
 import {useData} from '../common/userContext';
 import {db} from '../common/firebase';
 
