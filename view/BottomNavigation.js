@@ -2,7 +2,6 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from 'react-native-eva-icons';
 import ProfileScreen from './ProfileScreen';
-import MapScreen from './MapScreen';
 import SettingScreen from './SettingScreen';
 import SearchScreen from './SearchScreen';
 
@@ -16,8 +15,6 @@ const TabIcon = ({route, focused, color, size}) => {
     iconName = focused ? 'person' : 'person-outline';
   } else if (route.name === 'Search') {
     iconName = focused ? 'search' : 'search-outline';
-  } else if (route.name === 'Map') {
-    iconName = 'map-outline';
   } else if (route.name === 'Settings') {
     iconName = 'settings-outline';
   }
@@ -37,7 +34,6 @@ const BottomNavigation = ({route}) => {
       })}>
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Settings" component={SettingScreen} />
     </Tab.Navigator>
   );
