@@ -10,6 +10,13 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+          maven { 
+            url 'https://api.mapbox.com/downloads/v2/releases/maven'
+            credentials {
+                username = 'mapbox'
+                password = 'pk.eyJ1IjoiYXNhdXJhcyIsImEiOiJjbTYyYTU3cjUwbjNjMmtzZTdrdDR0cmhrIn0.FRidrBgyEa3EZHJhR4goEA'
+            }
+        }
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.4.2'
@@ -17,6 +24,19 @@ buildscript {
         classpath 'com.facebook.react:react-native-gradle-plugin'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin'
         classpath 'com.google.gms:google-services:4.3.3'
+    }
+}
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { 
+            url 'https://api.mapbox.com/downloads/v2/releases/maven'
+            credentials {
+                username = 'mapbox'
+                password = 'pk.eyJ1IjoiYXNhdXJhcyIsImEiOiJjbTYyYTU3cjUwbjNjMmtzZTdrdDR0cmhrIn0.FRidrBgyEa3EZHJhR4goEA'
+            }
+        }
     }
 }
 

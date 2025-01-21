@@ -102,6 +102,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-messaging'
 
+    implementation 'com.mapbox.maps:android:10.18.4'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:6.11.0'
+
     // React Native dependencies
     implementation 'com.facebook.react:react-native:0.75.1'  // Pin a specific version to avoid issues
 
