@@ -8,9 +8,9 @@ import BottomNavigation from './view/BottomNavigation';
 import EditProfile from './view/EditProfile';
 import SearchScreen from './view/SearchScreen';
 import SlotsScreen from './view/SlotsScreen';
-import LoadingScreen from './view/LoadingScreen';
 import RegistrationScreen from './view/RegistrationScreen';
 import MapScreen from './view/MapScreen';
+import HeatMapScreen from './view/HeatMapScreen';
 import {DataProvider} from './common/userContext';
 import 'react-native-get-random-values';
 
@@ -36,11 +36,15 @@ export default function App() {
               component={BottomNavigation}
               options={{headerShown: false}}
             />
-            <Stack.Screen name="EditProfile" component={EditProfile} />
+            <Stack.Screen
+              name="EditProfile"
+              component={EditProfile}
+              options={{headerShown: false}}
+            />
             <Stack.Screen name="StackSearch" component={SearchScreen} />
             <Stack.Screen name="SlotsScreen" component={SlotsScreen} />
             <Stack.Screen name="MapScreen" component={MapScreen} />
-            <Stack.Screen name="Loading" component={LoadingScreen} />
+            <Stack.Screen name="HeatMapScreen" component={HeatMapScreen} />
             <Stack.Screen
               name="RegistrationScreen"
               component={RegistrationScreen}
@@ -57,6 +61,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#D0D6E0',
   },
 });

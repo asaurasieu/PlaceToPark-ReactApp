@@ -3,14 +3,19 @@ import {StyleSheet, View} from 'react-native';
 import Mapbox from '@rnmapbox/maps';
 
 Mapbox.setAccessToken(
-  'pk.eyJ1IjoiYXNhdXJhcyIsImEiOiJjbTYyYTU3cjUwbjNjMmtzZTdrdDR0cmhrIn0.FRidrBgyEa3EZHJhR4goEA',
+  'sk.eyJ1IjoiYXNhdXJhcyIsImEiOiJjbTY5bnJrYXowYWU0Mm1zaXYwc3IzbGtmIn0.zw0bfnu0VjjEsU-OebpKQw',
 );
 
 const App = () => {
   return (
     <View style={styles.page}>
       <View style={styles.container}>
-        <Mapbox.MapView style={styles.map} />
+        <Mapbox.MapView
+          zoomLevel={12} // Nivel de zoom (ajústalo según tus necesidades)
+          Coordinate={[-3.7038, 40.4168]} // Coordenadas de Madrid
+          //styleURL="mapbox://styles/asauras/cm62iwhny007s01sg4x3q54ak"
+          style={styles.map}
+        />
       </View>
     </View>
   );
@@ -25,8 +30,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    height: 300,
-    width: 300,
+    height: '100%',
+    width: '100%',
   },
   map: {
     flex: 1,

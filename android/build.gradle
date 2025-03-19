@@ -14,7 +14,7 @@ buildscript {
             url 'https://api.mapbox.com/downloads/v2/releases/maven'
             credentials {
                 username = 'mapbox'
-                password = 'pk.eyJ1IjoiYXNhdXJhcyIsImEiOiJjbTYyYTU3cjUwbjNjMmtzZTdrdDR0cmhrIn0.FRidrBgyEa3EZHJhR4goEA'
+                password = 'sk.eyJ1IjoiYXNhdXJhcyIsImEiOiJjbTY5bnJrYXowYWU0Mm1zaXYwc3IzbGtmIn0.zw0bfnu0VjjEsU-OebpKQw'
             }
         }
     }
@@ -34,7 +34,7 @@ allprojects {
             url 'https://api.mapbox.com/downloads/v2/releases/maven'
             credentials {
                 username = 'mapbox'
-                password = 'pk.eyJ1IjoiYXNhdXJhcyIsImEiOiJjbTYyYTU3cjUwbjNjMmtzZTdrdDR0cmhrIn0.FRidrBgyEa3EZHJhR4goEA'
+                password = 'sk.eyJ1IjoiYXNhdXJhcyIsImEiOiJjbTY5bnJrYXowYWU0Mm1zaXYwc3IzbGtmIn0.zw0bfnu0VjjEsU-OebpKQw'
             }
         }
     }

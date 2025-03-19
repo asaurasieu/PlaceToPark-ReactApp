@@ -30,10 +30,15 @@ const BottomNavigation = ({route}) => {
     <Tab.Navigator
       initialRouteName="Profile"
       screenOptions={({route: tabRoute}) => ({
+        headerShown: false,
         // eslint-disable-next-line react/no-unstable-nested-components
         tabBarIcon: props => <TabIcon route={tabRoute} {...props} />,
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: '#87CEEB',
+        tabBarInactiveTintColor: '#D0D6E0',
+        tabBarStyle: {
+          backgroundColor: '#0F1A2B',
+          borderTopWidth: 0,
+        },
       })}>
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />

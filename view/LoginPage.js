@@ -12,7 +12,7 @@ import auth from '@react-native-firebase/auth';
 import {db} from '../common/firebase';
 import {useData} from '../common/userContext';
 
-const carLogo = require('../assets/Car.png');
+const carLogo = require('../assets/ptpLogo.png');
 
 export default function LoginPage({navigation}) {
   const [password, setPassword] = useState('smile123');
@@ -25,6 +25,7 @@ export default function LoginPage({navigation}) {
       return;
     }
 
+    console.log(0);
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(async userCredential => {
@@ -34,6 +35,7 @@ export default function LoginPage({navigation}) {
         const userDoc = await userDocRef.get();
         if (userDoc.exists) {
           setUserData(userDoc.data());
+          console.log(userDoc.data());
           navigation.navigate('BottomNavigation');
         } else {
           console.log('No user found, redirecting to EditProfile');
@@ -41,6 +43,7 @@ export default function LoginPage({navigation}) {
         }
       })
       .catch(error => {
+        console.log(1);
         let errorMessage;
         switch (error.code) {
           case 'auth/invalid-email':
@@ -56,6 +59,7 @@ export default function LoginPage({navigation}) {
           default:
             errorMessage = error.message;
         }
+        console.log(2);
         Alert.alert('Login Failed', errorMessage);
       });
   };
@@ -93,9 +97,7 @@ export default function LoginPage({navigation}) {
     <GestureHandlerRootView style={styles.container}>
       <StatusBar style="light" />
       <Image source={carLogo} style={styles.image} resizeMode="contain" />
-      <Text style={styles.welcome}>
-        WELCOME TO THE NEW ERA OF SMART PARKING
-      </Text>
+      <Text style={styles.slogan}>The New Era of Smart Parking</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -114,7 +116,7 @@ export default function LoginPage({navigation}) {
         onChangeText={setPassword}
       />
       <RectButton style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>LOGIN</Text>
+        <Text style={styles.buttonText}>Login</Text>
       </RectButton>
       <Text
         style={styles.forgotPassword}
@@ -136,7 +138,7 @@ export default function LoginPage({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#0F1A2B',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 0,
@@ -144,40 +146,44 @@ const styles = StyleSheet.create({
   image: {
     height: 300,
     width: 300,
-    marginBottom: 30,
+    marginLeft: 40,
+    marginBottom: -20,
   },
-  welcome: {
-    fontSize: 25,
-    color: 'white',
+  slogan: {
+    fontSize: 24,
+    color: '#D0D6E0',
     textAlign: 'center',
-    marginBottom: 40,
+    marginBottom: 35,
+    fontFamily: 'Georgia',
   },
   input: {
     height: 40,
-    width: '40%',
+    width: '70%',
     borderBottomColor: 'gray',
-    borderBottomWidth: 1,
-    marginBottom: 15,
-    color: 'white',
-    fontSize: 14,
+    borderBottomWidth: 1.5,
+    marginBottom: 7,
+    color: '#D0D6E0',
+    fontSize: 16,
   },
   forgotPassword: {
-    color: 'white',
+    color: '#D0D6E0',
     marginBottom: 30,
-    fontSize: 13,
+    fontSize: 15,
   },
   button: {
-    backgroundColor: 'red',
-    width: '70%',
+    backgroundColor: '#D0D6E0',
+    width: '50%',
     alignItems: 'center',
     padding: 9,
-    borderRadius: 5,
+    borderRadius: 4,
+    marginTop: 15,
     marginBottom: 15,
+    fontFamily: 'serif',
   },
   signUpLink: {
-    color: 'white',
-    marginTop: 15,
-    fontSize: 14,
+    color: '#D0D6E0',
+    marginTop: 1,
+    fontSize: 15,
     textDecorationLine: 'underline',
   },
 });
