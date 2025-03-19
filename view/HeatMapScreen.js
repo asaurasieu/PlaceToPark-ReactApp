@@ -10,10 +10,7 @@ const App = () => {
   return (
     <View style={styles.page}>
       <View style={styles.container}>
-        <Mapbox.MapView
-          style={styles.map}
-          styleURL="mapbox://styles/asauras/cm62iwhny007s01sg4x3q54ak"
-        />
+        <Mapbox.MapView style={styles.map} />
       </View>
     </View>
   );
