@@ -4,11 +4,10 @@ import {Icon} from 'react-native-eva-icons';
 import ProfileScreen from './ProfileScreen';
 import SettingScreen from './SettingScreen';
 import SearchScreen from './SearchScreen';
-import HeatMapScreen from './HeatMapScreen';
+import MapScreen from './MapScreen';
 
 const Tab = createBottomTabNavigator();
 
-// Define the TabIcon component outside of the navigator
 const TabIcon = ({route, focused, color, size}) => {
   let iconName;
 
@@ -16,10 +15,10 @@ const TabIcon = ({route, focused, color, size}) => {
     iconName = focused ? 'person' : 'person-outline';
   } else if (route.name === 'Search') {
     iconName = focused ? 'search' : 'search-outline';
-  } else if (route.name === 'HeatMap') {
-    iconName = 'map';
+  } else if (route.name === 'Map') {
+    iconName = focused ? 'map' : 'map-outline';
   } else if (route.name === 'Settings') {
-    iconName = 'settings-outline';
+    iconName = focused ? 'settings' : 'settings-outline';
   }
 
   return <Icon name={iconName} width={size} height={size} fill={color} />;
@@ -42,7 +41,7 @@ const BottomNavigation = ({route}) => {
       })}>
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="HeatMap" component={HeatMapScreen} />
+      <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Settings" component={SettingScreen} />
     </Tab.Navigator>
   );

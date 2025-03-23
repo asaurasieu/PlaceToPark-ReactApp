@@ -1,5 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Add these permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".MainApplication"
@@ -13,7 +19,7 @@
         <!-- Add this meta-data tag for the Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAkrJxn_5RE2ywdQtcnO4iMZn2dQYLDXLQ" />
+            android:value="AIzaSyAL20Q10G8gt6sjNylH12xF7MI97SgRy4I" />
 
         <activity
             android:name=".MainActivity"

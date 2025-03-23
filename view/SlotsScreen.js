@@ -16,69 +16,69 @@ export default function SlotsScreen() {
     spots: [],
   });
 
-  const callServer = () => {
-    const ws = new WebSocket('ws://localhost:3000');
-    ws.onopen = () => {
-      console.log('WebSocket connection opened');
-    };
-
-    ws.onmessage = event => {
-      console.log('Received data:', event.data); // Log the received data
-      const data = JSON.parse(event.data);
-      if (
-        data &&
-        typeof data === 'object' &&
-        data.hasOwnProperty('available') &&
-        data.hasOwnProperty('total') &&
-        data.hasOwnProperty('spots')
-      ) {
-        setParkingData({
-          available: data.available,
-          total: data.total,
-          spots: data.spots,
-        });
-      } else {
-        console.error('Received data is not in the expected format:', data);
-      }
-    };
-
-    ws.onerror = error => {
-      console.error('WebSocket error:', error);
-    };
-
-    ws.onclose = e => {
-      console.log('WebSocket is closed now: ${e.code} ${e.reason}');
-    };
-
-    return () => {
-      ws.close(); // Close the WebSocket connection when the component unmounts
-    };
-  };
-
-  const mock = () => {
-    const probability = Math.random();
-    const slots = Array.from(
-      {length: selectedParking.area.num_plazas},
-      (_, i) => ({
-        id: i + 1,
-        isAvailable: Math.random() > probability,
-      }),
-    );
-    setParkingData({
-      available: slots.filter(spot => spot.isAvailable).length,
-      total: selectedParking.area.num_plazas,
-      spots: slots,
-    });
-  };
-
   useEffect(() => {
+    const callServer = () => {
+      const ws = new WebSocket('ws://localhost:3000');
+      ws.onopen = () => {
+        console.log('WebSocket connection opened');
+      };
+
+      ws.onmessage = event => {
+        console.log('Received data:', event.data);
+        const data = JSON.parse(event.data);
+        if (
+          data &&
+          typeof data === 'object' &&
+          data.hasOwnProperty('available') &&
+          data.hasOwnProperty('total') &&
+          data.hasOwnProperty('spots')
+        ) {
+          setParkingData({
+            available: data.available,
+            total: data.total,
+            spots: data.spots,
+          });
+        } else {
+          console.error('Received data is not in the expected format:', data);
+        }
+      };
+
+      ws.onerror = error => {
+        console.error('WebSocket error:', error);
+      };
+
+      ws.onclose = e => {
+        console.log('WebSocket is closed now: ${e.code} ${e.reason}');
+      };
+
+      return () => {
+        ws.close();
+      };
+    };
+
+    const mock = () => {
+      const probability = Math.random();
+      const slots = Array.from(
+        {length: selectedParking.area.num_plazas},
+        (_, i) => ({
+          id: i + 1,
+          isAvailable: Math.random() > probability,
+        }),
+      );
+      setParkingData({
+        available: slots.filter(spot => spot.isAvailable).length,
+        total: selectedParking.area.num_plazas,
+        spots: slots,
+      });
+    };
+
     console.log(selectedParking);
     if (selectedParking.area.id === '3') {
       callServer();
     } else {
       mock();
     }
-  }, [selectedParking.area.id]);
+  }, [selectedParking]);
 
   return (
     <View style={styles.container}>
@@ -103,7 +103,7 @@ export default function SlotsScreen() {
       </ScrollView>
       <View style={styles.navigateButtonContainer}>
         <RectButton
-          onPress={() => navigation.navigate('MapScreen')}
+          onPress={() => navigation.navigate('NavigationScreen')}
           style={styles.navigateButton}>
           <Text style={styles.navigateButtonText}>Navigate To</Text>
         </RectButton>

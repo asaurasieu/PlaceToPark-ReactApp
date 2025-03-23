@@ -9,23 +9,11 @@ project.ext.react = [
     nodeExecutableAndArgs: ["/Users/anita/.nvm/versions/node/v22.11.0/bin/node"],
     enableHermes: true  
 ]
-
-// React Native settings
 react {
-    // Enables autolinking of libraries
     autolinkLibrariesWithApp()
 }
 
-/**
- * Enable Proguard in release builds to minify the Java bytecode.
- */
-def enableProguardInReleaseBuilds = true  // Enable Proguard for release builds
-
-/**
- * JavaScriptCore (JSC) variant selection. 
- * For example, to use the international variant, you can use:
- * def jscFlavor = 'org.webkit:android-jsc-intl:+' 
- */
+def enableProguardInReleaseBuilds = true  
 def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
@@ -38,9 +26,8 @@ android {
 
     namespace "com.app"
     defaultConfig {
-        // Update the applicationId to match the package_name from google-services.json
         applicationId "com.parking.app"
-        minSdkVersion 24  // Minimum SDK version 24 for Java 8 features
+        minSdkVersion 24 
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
@@ -54,8 +41,7 @@ android {
             keyPassword 'android'
         }
         release {
-            // Replace this with your production keystore
-            storeFile file('my-release-key.jks')  // Provide the correct path
+            storeFile file('my-release-key.jks')  
             storePassword 'placetopark24'
             keyAlias 'keys-parking'
             keyPassword 'placetopark24'
@@ -67,7 +53,7 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            signingConfig signingConfigs.release  // Use release signing configuration
+            signingConfig signingConfigs.release  
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
@@ -76,7 +62,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-        coreLibraryDesugaringEnabled true  // Java 8 support
+        coreLibraryDesugaringEnabled true 
     }
 }
 
@@ -102,9 +88,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-messaging'
 
-    implementation 'com.mapbox.maps:android:10.18.4'
-    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:6.11.0'
-
     // React Native dependencies
     implementation 'com.facebook.react:react-native:0.75.1'  // Pin a specific version to avoid issues
 
@@ -114,6 +97,10 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation("com.facebook.react:react-android")
+    implementation("com.facebook.react:hermes-android")
+    implementation project(':react-native-vector-icons')
 }
 
 // Force AndroidX dependencies

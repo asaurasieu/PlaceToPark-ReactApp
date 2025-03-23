@@ -147,13 +147,15 @@ const styles = StyleSheet.create({
     height: 300,
     width: 300,
     marginLeft: 40,
-    marginBottom: -20,
+    marginTop: -30,
+    marginBottom: 8,
   },
   slogan: {
     fontSize: 24,
     color: '#D0D6E0',
     textAlign: 'center',
-    marginBottom: 35,
+    marginTop: -45,
+    marginBottom: 60,
     fontFamily: 'Georgia',
   },
   input: {
@@ -161,13 +163,13 @@ const styles = StyleSheet.create({
     width: '70%',
     borderBottomColor: 'gray',
     borderBottomWidth: 1.5,
-    marginBottom: 7,
+    marginBottom: 25,
     color: '#D0D6E0',
     fontSize: 16,
   },
   forgotPassword: {
     color: '#D0D6E0',
-    marginBottom: 30,
+    marginBottom: 80,
     fontSize: 15,
   },
   button: {

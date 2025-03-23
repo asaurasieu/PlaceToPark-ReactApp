@@ -190,14 +190,14 @@ const SearchScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#D0D6E0',
     paddingTop: 60,
     alignItems: 'center',
   },
   inputContainer: {
     width: '90%',
     borderRadius: 25,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#52677D',
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.1,
@@ -208,12 +208,12 @@ const styles = StyleSheet.create({
   textInput: {
     height: 50,
     borderRadius: 25,
-    backgroundColor: '#fff',
+    backgroundColor: '#F5F5F5',
     paddingLeft: 20,
     fontSize: 16,
-    color: '#000',
+    color: '#52677D',
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#D7D3CC',
   },
   textInputFocused: {
     height: 50,
@@ -226,11 +226,11 @@ const styles = StyleSheet.create({
     borderColor: '#007BFF',
   },
   listView: {
-    backgroundColor: '#fff',
+    backgroundColor: '#F5F5F5',
     borderRadius: 15,
     marginHorizontal: 10,
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: '#F5F5F5',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 5,

@@ -10,7 +10,7 @@ import SearchScreen from './view/SearchScreen';
 import SlotsScreen from './view/SlotsScreen';
 import RegistrationScreen from './view/RegistrationScreen';
 import MapScreen from './view/MapScreen';
-import HeatMapScreen from './view/HeatMapScreen';
+import NavigationScreen from './view/NavigationScreen';
 import {DataProvider} from './common/userContext';
 import 'react-native-get-random-values';
 
@@ -41,13 +41,30 @@ export default function App() {
               component={EditProfile}
               options={{headerShown: false}}
             />
-            <Stack.Screen name="StackSearch" component={SearchScreen} />
-            <Stack.Screen name="SlotsScreen" component={SlotsScreen} />
-            <Stack.Screen name="MapScreen" component={MapScreen} />
-            <Stack.Screen name="HeatMapScreen" component={HeatMapScreen} />
+            <Stack.Screen
+              name="StackSearch"
+              component={SearchScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="SlotsScreen"
+              component={SlotsScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="NavigationScreen"
+              component={NavigationScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="MapScreen"
+              component={MapScreen}
+              options={{headerShown: false}}
+            />
             <Stack.Screen
               name="RegistrationScreen"
               component={RegistrationScreen}
+              options={{headerShown: false}}
             />
             {/* Other screens can be added here */}
           </Stack.Navigator>

@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   followButtonText: {
-    color: '#BDC4D4',
+    color: '#D8DEE8',
     fontSize: 13,
     marginLeft: 5,
   },
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonText: {
-    color: '#BDC4D4',
+    color: '#D8DEE8',
     fontSize: 13,
   },
   profileTextContainer: {

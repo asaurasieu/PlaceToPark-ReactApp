@@ -11,7 +11,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
     ex.autolinkLibrariesFromCommand()
 }
 
-rootProject.name = 'APP'
+rootProject.name = 'ParkingProject'
 
 // Include the app module
 include ':app'
@@ -24,3 +24,5 @@ project(':react-native-vector-icons').projectDir = new File(rootProject.projectD
 
 // Include React Native Gradle plugin
 includeBuild('../node_modules/@react-native/gradle-plugin')
+
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
