@@ -11,6 +11,7 @@ import {GestureHandlerRootView, RectButton} from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 import {db} from '../common/firebase';
 import {useData} from '../common/userContext';
+import {fonts} from '../common/styles';
 
 const carLogo = require('../assets/ptpLogo.png');
 
@@ -18,7 +19,6 @@ export default function LoginPage({navigation}) {
   const [password, setPassword] = useState('smile123');
   const {setUserData, email, setEmail} = useData();
 
-  // Call this function when login is successful
   const handleLogin = () => {
     if (email === '' || password === '') {
       Alert.alert('Error, please enter your email and password.');
@@ -151,12 +151,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   slogan: {
-    fontSize: 24,
+    fontSize: fonts.size.xxlarge,
+    fontFamily: fonts.regular,
     color: '#D0D6E0',
     textAlign: 'center',
     marginTop: -45,
     marginBottom: 60,
-    fontFamily: 'Georgia',
   },
   input: {
     height: 40,
@@ -165,12 +165,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1.5,
     marginBottom: 25,
     color: '#D0D6E0',
-    fontSize: 16,
+    fontSize: fonts.size.medium,
+    fontFamily: fonts.regular,
   },
   forgotPassword: {
     color: '#D0D6E0',
     marginBottom: 80,
-    fontSize: 15,
+    fontSize: fonts.size.regular,
+    fontFamily: fonts.regular,
   },
   button: {
     backgroundColor: '#D0D6E0',
@@ -180,12 +182,18 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginTop: 15,
     marginBottom: 15,
-    fontFamily: 'serif',
+  },
+  buttonText: {
+    color: '#0F1A2B',
+    fontSize: fonts.size.medium,
+    fontFamily: fonts.regular,
+    fontWeight: fonts.weight.semibold,
   },
   signUpLink: {
     color: '#D0D6E0',
     marginTop: 1,
-    fontSize: 15,
+    fontSize: fonts.size.regular,
+    fontFamily: fonts.regular,
     textDecorationLine: 'underline',
   },
 });

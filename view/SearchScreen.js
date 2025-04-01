@@ -13,6 +13,7 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import {REACT_APP_GOOGLE_API_KEY} from '@env';
 import {useData} from '../common/userContext';
 import {db} from '../common/firebase';
+import {fonts} from '../common/styles';
 
 const SearchScreen = ({navigation}) => {
   const {userData, setUserData, email, setSelectedParking} = useData();
@@ -44,7 +45,6 @@ const SearchScreen = ({navigation}) => {
         ...userData,
         lastSearch: updatedLastSearch,
       };
-      // Save the updated search history to the database
       try {
         await db
           .collection('users')
@@ -55,7 +55,6 @@ const SearchScreen = ({navigation}) => {
         Alert.alert('Error', 'Failed to save search: ' + error.message);
       }
     }
-    // Fetch parking data and calculate distances
     try {
       const parkingAreas = await fetchParkingAreas();
       const origin = `${location.lat},${location.lng}`;
@@ -210,7 +209,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: '#F5F5F5',
     paddingLeft: 20,
-    fontSize: 16,
+    fontSize: fonts.size.medium,
+    fontFamily: fonts.regular,
     color: '#52677D',
     borderWidth: 1,
     borderColor: '#D7D3CC',
@@ -220,7 +220,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: '#fff',
     paddingLeft: 20,
-    fontSize: 16,
+    fontSize: fonts.size.medium,
+    fontFamily: fonts.regular,
     color: '#000',
     borderWidth: 1,
     borderColor: '#007BFF',
@@ -242,7 +243,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   resultText: {
-    fontSize: 16,
+    fontSize: fonts.size.medium,
+    fontFamily: fonts.regular,
     color: '#333',
   },
 });
