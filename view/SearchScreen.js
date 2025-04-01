@@ -13,7 +13,6 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import {REACT_APP_GOOGLE_API_KEY} from '@env';
 import {useData} from '../common/userContext';
 import {db} from '../common/firebase';
-import {fonts} from '../common/styles';
 
 const SearchScreen = ({navigation}) => {
   const {userData, setUserData, email, setSelectedParking} = useData();
@@ -209,8 +208,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: '#F5F5F5',
     paddingLeft: 20,
-    fontSize: fonts.size.medium,
-    fontFamily: fonts.regular,
+    fontSize: 16,
+    fontFamily: 'Roboto',
     color: '#52677D',
     borderWidth: 1,
     borderColor: '#D7D3CC',
@@ -220,8 +219,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: '#fff',
     paddingLeft: 20,
-    fontSize: fonts.size.medium,
-    fontFamily: fonts.regular,
+    fontSize: 16,
+    fontFamily: 'Roboto',
     color: '#000',
     borderWidth: 1,
     borderColor: '#007BFF',
@@ -243,8 +242,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   resultText: {
-    fontSize: fonts.size.medium,
-    fontFamily: fonts.regular,
+    fontSize: 16,
+    fontFamily: 'Roboto',
     color: '#333',
   },
 });

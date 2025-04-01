@@ -11,7 +11,6 @@ import {GestureHandlerRootView, RectButton} from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 import {db} from '../common/firebase';
 import {useData} from '../common/userContext';
-import {fonts} from '../common/styles';
 
 const carLogo = require('../assets/ptpLogo.png');
 
@@ -151,8 +150,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   slogan: {
-    fontSize: fonts.size.xxlarge,
-    fontFamily: fonts.regular,
+    fontSize: 32,
+    fontFamily: 'Roboto',
     color: '#D0D6E0',
     textAlign: 'center',
     marginTop: -45,
@@ -165,14 +164,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1.5,
     marginBottom: 25,
     color: '#D0D6E0',
-    fontSize: fonts.size.medium,
-    fontFamily: fonts.regular,
+    fontSize: 16,
+    fontFamily: 'Roboto',
   },
   forgotPassword: {
     color: '#D0D6E0',
     marginBottom: 80,
-    fontSize: fonts.size.regular,
-    fontFamily: fonts.regular,
+    fontSize: 16,
+    fontFamily: 'Roboto',
   },
   button: {
     backgroundColor: '#D0D6E0',
@@ -185,15 +184,15 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#0F1A2B',
-    fontSize: fonts.size.medium,
-    fontFamily: fonts.regular,
-    fontWeight: fonts.weight.semibold,
+    fontSize: 16,
+    fontFamily: 'Roboto',
+    fontWeight: '600',
   },
   signUpLink: {
     color: '#D0D6E0',
     marginTop: 1,
-    fontSize: fonts.size.regular,
-    fontFamily: fonts.regular,
+    fontSize: 16,
+    fontFamily: 'Roboto',
     textDecorationLine: 'underline',
   },
 });
