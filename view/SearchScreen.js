@@ -7,6 +7,7 @@ import {
   FlatList,
   RectButton,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
@@ -18,6 +19,7 @@ const SearchScreen = ({navigation}) => {
   const {userData, setUserData, email, setSelectedParking} = useData();
   const [nearestAreas, setNearestAreas] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchParkingAreas = async () => {
     try {
@@ -54,42 +56,56 @@ const SearchScreen = ({navigation}) => {
         Alert.alert('Error', 'Failed to save search: ' + error.message);
       }
     }
+
+    setIsLoading(true);
     try {
       const parkingAreas = await fetchParkingAreas();
       const origin = `${location.lat},${location.lng}`;
-      const distances = await fetchDistances(origin, parkingAreas);
 
-      const nearest = distances
-        .sort((a, b) => a.distance - b.distance)
-        .slice(0, 3);
-      nearest.unshift({
+      // Add the hardcoded first location
+      const hardcodedLocation = {
         distance: 1,
         area: {
-          barrio: '05-06 CASTILLA',
-          bateria_linea: 'Batería',
-          calle: 'CASTELLANA, PASEO, DE LA',
-          color: '043000255 Azul',
-          distrito: '05 CHAMARTÍN',
           id: '3',
-          lat: 40.4705966308,
-          lng: -3.6877971995,
-          num_plazas: 26,
+          area: 'PALACIO',
+          color: 'Verde',
+          street: 'AGUAS, CALLE, DE LAS',
+          number: 2,
+          spots_number: 7,
+          lat: 40.4105234455,
+          lng: -3.7119558166,
         },
-      });
-      setNearestAreas(nearest);
+      };
+
+      // Process remaining parking areas in batches of 10
+      const batchSize = 10;
+      let allDistances = [hardcodedLocation];
+
+      for (let i = 0; i < parkingAreas.length; i += batchSize) {
+        const batch = parkingAreas.slice(i, i + batchSize);
+        const batchDistances = await fetchDistances(origin, batch);
+        allDistances = [...allDistances, ...batchDistances];
+
+        // Update UI with current results
+        const currentNearest = allDistances
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 5);
+        setNearestAreas(currentNearest);
+      }
     } catch (error) {
       Alert.alert('Error', 'Failed to calculate distances: ' + error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const fetchDistances = async (origin, destinations) => {
     const destinationString = destinations
-      .slice(0, 10)
       .map(loc => `${loc.lat},${loc.lng}`)
       .join('|');
 
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destinationString}&key=${REACT_APP_GOOGLE_API_KEY}`;
-    console.log(url);
+
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -100,16 +116,13 @@ const SearchScreen = ({navigation}) => {
           area: destinations[index],
         }));
       } else {
-        Alert.alert(
-          'Error',
-          'Failed to fetch distances: ' + data.error_message,
-        );
+        console.warn('Failed to fetch distances:', data.error_message);
         return [];
       }
     } catch (error) {
-      Alert.alert(
-        'Error',
-        'Failed to connect to Google Distance Matrix: ' + error.message,
+      console.warn(
+        'Failed to connect to Google Distance Matrix:',
+        error.message,
       );
       return [];
     }
@@ -153,6 +166,14 @@ const SearchScreen = ({navigation}) => {
           fetchDetails={true}
         />
       </View>
+      {isLoading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#52677D" />
+          <Text style={styles.loadingText}>
+            Finding nearest parking spots...
+          </Text>
+        </View>
+      )}
       {nearestAreas.length > 0 && (
         <FlatList
           data={nearestAreas}
@@ -161,20 +182,15 @@ const SearchScreen = ({navigation}) => {
             <View style={styles.resultItem}>
               <TouchableOpacity onPress={() => handleItemPress(item)}>
                 <Text style={styles.resultText}>
-                  {item.area.calle} {item.area.num_finca}
+                  {item.area.street} {item.area.number}
                 </Text>
                 <Text style={styles.resultText}>
                   Distance: {formatDistance(item.distance)}
                 </Text>
                 <Text style={styles.resultText}>Color: {item.area.color}</Text>
+                <Text style={styles.resultText}>Area: {item.area.area}</Text>
                 <Text style={styles.resultText}>
-                  Type: {item.area.bateria_linea}
-                </Text>
-                <Text style={styles.resultText}>
-                  Spaces: {item.area.num_plazas}
-                </Text>
-                <Text style={styles.resultText}>
-                  District = {item.area.distrito}
+                  Spots: {item.area.spots_number}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -245,6 +261,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Roboto',
     color: '#333',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#52677D',
+    fontFamily: 'Roboto',
   },
 });
 

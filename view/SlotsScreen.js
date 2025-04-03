@@ -7,8 +7,10 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Linking,
+  Platform,
 } from 'react-native';
-import {RectButton} from 'react-native-gesture-handler';
+import {RectButton, GestureHandlerRootView} from 'react-native-gesture-handler';
 import {StatusBar} from 'react-native';
 import {Icon} from 'react-native-eva-icons';
 import {useData} from '../common/userContext';
@@ -87,6 +89,30 @@ export default function SlotsScreen() {
     }
   }, [selectedParking]);
 
+  const handleNavigate = () => {
+    const {calle, num_finca} = selectedParking.area;
+    const destination = encodeURIComponent(
+      `${calle}${num_finca ? `, ${num_finca}` : ''}, Madrid`,
+    );
+
+    // Create the Google Maps URL with directions
+    const url = Platform.select({
+      ios: `comgooglemaps://?daddr=${destination}`,
+      android: `google.navigation:q=${destination}`,
+    });
+
+    // Check if Google Maps is installed
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        // If Google Maps is not installed, open in browser
+        const browserUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`;
+        Linking.openURL(browserUrl);
+      }
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -128,43 +154,41 @@ export default function SlotsScreen() {
         </View>
       </View>
 
-      <ScrollView
-        style={styles.spotsContainer}
-        contentContainerStyle={styles.spotsContentContainer}>
-        {parkingData.spots.map(spot => (
-          <View
-            key={spot.id}
-            style={[
-              styles.spot,
-              spot.isAvailable ? styles.available : styles.unavailable,
-            ]}>
-            <Text
+      <ScrollView style={styles.mainContent}>
+        <View style={styles.spotsContainer}>
+          {parkingData.spots.map(spot => (
+            <View
+              key={spot.id}
               style={[
-                styles.spotText,
-                spot.isAvailable
-                  ? styles.availableText
-                  : styles.unavailableText,
+                styles.spot,
+                spot.isAvailable ? styles.available : styles.unavailable,
               ]}>
-              {spot.id}
-            </Text>
-          </View>
-        ))}
-      </ScrollView>
+              <Text
+                style={[
+                  styles.spotText,
+                  spot.isAvailable
+                    ? styles.availableText
+                    : styles.unavailableText,
+                ]}>
+                {spot.id}
+              </Text>
+            </View>
+          ))}
+        </View>
 
-      <View style={styles.navigateButtonContainer}>
-        <RectButton
-          onPress={() => navigation.navigate('NavigationScreen')}
-          style={styles.navigateButton}>
-          <Icon
-            name="navigation-2-outline"
-            width={20}
-            height={20}
-            fill="#fff"
-            style={styles.buttonIcon}
-          />
-          <Text style={styles.navigateButtonText}>Navigate To</Text>
-        </RectButton>
-      </View>
+        <View style={styles.navigateButtonContainer}>
+          <RectButton onPress={handleNavigate} style={styles.navigateButton}>
+            <Icon
+              name="navigation-2-outline"
+              width={20}
+              height={20}
+              fill="#fff"
+              style={styles.buttonIcon}
+            />
+            <Text style={styles.navigateButtonText}>Navigate</Text>
+          </RectButton>
+        </View>
+      </ScrollView>
       <StatusBar style="auto" />
     </View>
   );
@@ -192,6 +216,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 3,
+  },
+  mainContent: {
+    flex: 1,
   },
   backButton: {
     padding: 8,
@@ -241,16 +268,12 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   spotsContainer: {
-    flex: 1,
-    backgroundColor: '#D0D6E0',
-    marginHorizontal: 16,
-  },
-  spotsContentContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
+    backgroundColor: '#D0D6E0',
   },
   spot: {
     width: 65,
@@ -298,7 +321,7 @@ const styles = StyleSheet.create({
   navigateButtonContainer: {
     padding: 16,
     backgroundColor: '#D0D6E0',
-    paddingVertical: 12,
+    marginTop: 35,
   },
   navigateButton: {
     backgroundColor: '#1C2E4A',

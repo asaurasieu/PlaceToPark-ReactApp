@@ -5,7 +5,7 @@ from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 
 # Initialize Firebase Admin SDK 
-cred = credentials.Certificate("proyecto-parking-aa0e2-firebase-adminsdk-alxi3-16868e821f.json")
+cred = credentials.Certificate("proyecto-parking-aa0e2-firebase-adminsdk-alxi3-a91298d589.json")
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
