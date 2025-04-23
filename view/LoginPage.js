@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   slogan: {
-    fontSize: 32,
+    fontSize: 20,
     fontFamily: 'Roboto',
     color: '#D0D6E0',
     textAlign: 'center',
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#0F1A2B',
-    fontSize: 16,
+    fontSize: 17,
     fontFamily: 'Roboto',
     fontWeight: '600',
   },

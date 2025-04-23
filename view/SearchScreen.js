@@ -62,7 +62,6 @@ const SearchScreen = ({navigation}) => {
       const parkingAreas = await fetchParkingAreas();
       const origin = `${location.lat},${location.lng}`;
 
-      // Add the hardcoded first location
       const hardcodedLocation = {
         distance: 1,
         area: {
@@ -77,8 +76,7 @@ const SearchScreen = ({navigation}) => {
         },
       };
 
-      // Process remaining parking areas in batches of 10
-      const batchSize = 10;
+      const batchSize = 20;
       let allDistances = [hardcodedLocation];
 
       for (let i = 0; i < parkingAreas.length; i += batchSize) {
@@ -86,7 +84,6 @@ const SearchScreen = ({navigation}) => {
         const batchDistances = await fetchDistances(origin, batch);
         allDistances = [...allDistances, ...batchDistances];
 
-        // Update UI with current results
         const currentNearest = allDistances
           .sort((a, b) => a.distance - b.distance)
           .slice(0, 5);
@@ -174,7 +171,7 @@ const SearchScreen = ({navigation}) => {
           </Text>
         </View>
       )}
-      {nearestAreas.length > 0 && (
+      {!isLoading && nearestAreas.length > 0 && (
         <FlatList
           data={nearestAreas}
           keyExtractor={(item, index) => `${item.area.id || index}`}

@@ -27,7 +27,7 @@ export default function SlotsScreen() {
 
   useEffect(() => {
     const callServer = () => {
-      const ws = new WebSocket('ws://10.0.2.2:3000');
+      const ws = new WebSocket('ws://10.0.2.2:8080');
       ws.onopen = () => {
         console.log('WebSocket connection opened');
       };
@@ -68,7 +68,7 @@ export default function SlotsScreen() {
     const mock = () => {
       const probability = Math.random();
       const slots = Array.from(
-        {length: selectedParking.area.num_plazas},
+        {length: selectedParking.area.spots_number},
         (_, i) => ({
           id: i + 1,
           isAvailable: Math.random() > probability,
@@ -76,7 +76,7 @@ export default function SlotsScreen() {
       );
       setParkingData({
         available: slots.filter(spot => spot.isAvailable).length,
-        total: selectedParking.area.num_plazas,
+        total: selectedParking.area.spots_number,
         spots: slots,
       });
     };
@@ -90,9 +90,9 @@ export default function SlotsScreen() {
   }, [selectedParking]);
 
   const handleNavigate = () => {
-    const {calle, num_finca} = selectedParking.area;
+    const {street, number} = selectedParking.area;
     const destination = encodeURIComponent(
-      `${calle}${num_finca ? `, ${num_finca}` : ''}, Madrid`,
+      `${street}${number ? `, ${number}` : ''}, Madrid`,
     );
 
     // Create the Google Maps URL with directions
@@ -122,9 +122,9 @@ export default function SlotsScreen() {
           <Icon name="arrow-back-outline" width={24} height={24} fill="#333" />
         </TouchableOpacity>
         <Text style={styles.headerText} numberOfLines={2} ellipsizeMode="tail">
-          {selectedParking.area.calle}
-          {selectedParking.area.num_finca
-            ? `, ${selectedParking.area.num_finca}`
+          {selectedParking.area.street}
+          {selectedParking.area.number
+            ? `, ${selectedParking.area.number}`
             : ''}
         </Text>
       </View>

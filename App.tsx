@@ -16,7 +16,6 @@ import 'react-native-get-random-values';
 
 enableScreens();
 
-// Initialize the stack navigator
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -66,7 +65,6 @@ export default function App() {
               component={RegistrationScreen}
               options={{headerShown: false}}
             />
-            {/* Other screens can be added here */}
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>
@@ -74,7 +72,6 @@ export default function App() {
   );
 }
 
-// Add your styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,

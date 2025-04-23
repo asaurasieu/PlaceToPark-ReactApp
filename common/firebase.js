@@ -1,35 +1,7 @@
-/*import firebase from 'firebase/compat/app';
-import {getAuth} from 'firebase/auth';
-import {getFirestore} from 'firebase/firestore';
-import {getStorage} from 'firebase/storage';
-
-const firebaseConfig = {
-  apiKey: '',
-  authDomain: '',
-  projectId: '',
-  storageBucket: '',
-  messagingSenderId: '',
-  appId: '',
-};
-
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig);
-}
-
-const auth = getAuth();
-const db = getFirestore();
-const storage = getStorage();
-
-export {auth, db, storage};
-*/
-
 // Import the functions you need from the SDKs you need
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyBuboD_Mv91hBQ1_yDk8ngQ1W6zBcwMuEw',
   authDomain: 'proyecto-parking-aa0e2.firebaseapp.com',
@@ -44,6 +16,7 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
+// Initialize Firestore
 const db = firestore();
-export { db };
 
+export {db};
