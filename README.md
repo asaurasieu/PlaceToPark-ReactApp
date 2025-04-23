@@ -1,4 +1,4 @@
-# Parking App
+# Place To Park 
 
 A modern React Native mobile application designed to help users find and manage parking spaces efficiently. Built with React Native and Firebase, this app provides a seamless parking experience for both drivers and parking space owners.
 
