@@ -27,7 +27,7 @@ export default function SlotsScreen() {
 
   useEffect(() => {
     const callServer = () => {
-      const ws = new WebSocket('ws://10.0.2.2:8080');
+      const ws = new WebSocket('wss://sunbird-joint-pelican.ngrok-free.app');
       ws.onopen = () => {
         console.log('WebSocket connection opened');
       };

@@ -29,7 +29,7 @@ const ProfileScreen = ({navigation}) => {
           />
         ) : (
           <Image
-            source={require('../assets/photo5.jpg')}
+            source={require('../assets/background.jpg')}
             style={styles.coverImage}
           />
         )}
@@ -42,7 +42,7 @@ const ProfileScreen = ({navigation}) => {
             />
           ) : (
             <Image
-              source={require('../assets/profile.jpg')}
+              source={require('../assets/person.jpg')}
               style={styles.profileImage}
             />
           )}
