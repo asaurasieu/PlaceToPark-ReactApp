@@ -3,7 +3,7 @@ import {StyleSheet, View, Text, Dimensions, Alert} from 'react-native';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import {GestureHandlerRootView, RectButton} from 'react-native-gesture-handler';
 
-const MapScreen = () => {
+const NavigationScreen = () => {
   const [mapError, setMapError] = useState(null);
 
   return (
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MapScreen;
+export default NavigationScreen;

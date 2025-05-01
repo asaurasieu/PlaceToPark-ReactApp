@@ -95,18 +95,15 @@ export default function SlotsScreen() {
       `${street}${number ? `, ${number}` : ''}, Madrid`,
     );
 
-    // Create the Google Maps URL with directions
     const url = Platform.select({
       ios: `comgooglemaps://?daddr=${destination}`,
       android: `google.navigation:q=${destination}`,
     });
 
-    // Check if Google Maps is installed
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
         Linking.openURL(url);
       } else {
-        // If Google Maps is not installed, open in browser
         const browserUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`;
         Linking.openURL(browserUrl);
       }
