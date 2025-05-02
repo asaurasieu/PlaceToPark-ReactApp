@@ -14,7 +14,7 @@ A modern React Native mobile application designed to help users find and manage 
 
 Try out our app directly in your browser through Appetize.io! Appetize.io is a powerful platform that streams native mobile apps in the browser, allowing you to experience the full functionality of our parking app without installation.
 
-Demo Link: [Try the App](https://appetize.io/app/b_scnshziyj5gvad6fvcvmicy27u?device=pixel8pro&osVersion=14.0&scale=auto&orientation=portrait&location=40.4777,-3.6883&autoplay=true)
+Demo Link: [Try the App](https://appetize.io/app/b_mb4egnbimacc4glawo4xr6d5aa?device=pixel8pro&osVersion=14.0&scale=auto&orientation=portrait&location=40.4777,-3.6883&autoplay=true)
 
 What you can test:
 
