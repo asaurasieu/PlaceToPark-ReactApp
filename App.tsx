@@ -10,7 +10,6 @@ import SearchScreen from './view/SearchScreen';
 import SlotsScreen from './view/SlotsScreen';
 import RegistrationScreen from './view/RegistrationScreen';
 import MapScreen from './view/MapScreen';
-import NavigationScreen from './view/NavigationScreen';
 import {DataProvider} from './common/userContext';
 import 'react-native-get-random-values';
 
@@ -48,11 +47,6 @@ export default function App() {
             <Stack.Screen
               name="SlotsScreen"
               component={SlotsScreen}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="NavigationScreen"
-              component={NavigationScreen}
               options={{headerShown: false}}
             />
             <Stack.Screen
