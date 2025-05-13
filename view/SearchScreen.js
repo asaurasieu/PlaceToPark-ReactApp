@@ -83,12 +83,11 @@ const SearchScreen = ({navigation}) => {
         const batch = parkingAreas.slice(i, i + batchSize);
         const batchDistances = await fetchDistances(origin, batch);
         allDistances = [...allDistances, ...batchDistances];
-
-        const currentNearest = allDistances
-          .sort((a, b) => a.distance - b.distance)
-          .slice(0, 5);
-        setNearestAreas(currentNearest);
       }
+      const currentNearest = allDistances
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, 5);
+      setNearestAreas(currentNearest);
     } catch (error) {
       Alert.alert('Error', 'Failed to calculate distances: ' + error.message);
     } finally {

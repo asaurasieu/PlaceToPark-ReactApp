@@ -24,7 +24,6 @@ export default function LoginPage({navigation}) {
       return;
     }
 
-    console.log(0);
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(async userCredential => {
